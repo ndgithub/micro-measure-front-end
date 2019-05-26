@@ -1,4 +1,6 @@
-body {}
+body {
+  overflow: hidden;
+}
 
 #root {
   height: 100vh;

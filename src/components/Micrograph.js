@@ -4,39 +4,40 @@ class Micrograph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      count: 0,
-      thisShouldSayPoopoo: this.props.caca,
-
+      size: null,
+      pos: null,
     };
     this.myRef = React.createRef();
+
   }
 
   componentDidMount() {
-    this.props.getRefDims({
-      divWidth: this.myRef.current.offsetWidth,
-      divHeight: this.myRef.current.offsetHeight
-    })
-    // this.setState({
-    //   divWidth: this.myRef.current.offsetWidth,
-    //   divHeight: this.myRef.current.offsetHeight,
-    //   micro: this.props.selectedFile
-    // })
-    // console.log("this is a props in Micrograph Component" + this.props.selectedFile);
+    this.props.getContainerRef(this.myRef)
+  }
+
+  componentDidUpdate() {
+
   }
 
   render() {
-    var myStyle = {
-      border: '8px solid #000000',
-      backgroundImage: 'url(' + this.props.selectedFile + ')'
+    console.log('Micrograph.render()');
+    var myStyle = {};
+    if (this.props.imageLoaded === true) {
+
+      myStyle = {
+        padding: '0px',
+        backgroundImage: 'url(' + this.props.selectedFile + ')',
+        backgroundSize: Math.floor(this.props.size.width) + 'px ' + Math.floor(this.props.size.height) + 'px',
+        backgroundPosition: Math.floor(this.props.pos.x) + 'px ' + Math.floor(this.props.pos.y) + 'px',
+      }
+    } else {
+      myStyle = {};
     }
 
-    // if (this.props.selectedFile) {
-    //   this.setState({ isImageInitialized: true });
-    //   console.log('there is a selected file');
-    // }
+
+
     return (
-      <div ref={this.myRef} style={myStyle} id="micro-container" >
-        <div onClick={this.handleClick}>{this.state.count}</div>
+      <div ref={this.myRef} style={myStyle} id="micro-container" onWheel={(e) => this.props.onScroll(e)} >
         <div id="scale-bar">
           <div id="scale-bar-text"></div>
           <div id="scale-bar-inner-bar"></div>
