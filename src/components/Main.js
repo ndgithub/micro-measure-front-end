@@ -12,7 +12,10 @@ class Main extends React.Component {
       pos: null,
       containerRef: null
     };
+
     this.origDims = null;
+    this.isMouseDown = null;
+    this.lastMousePos = null;
 
   }
 
@@ -78,9 +81,7 @@ class Main extends React.Component {
 
   }
 
-
-
-  // Gets called from Micrograph after it mounts
+  /////////////  Prop functions called from Micrograph component ///////////////
   getContainerRef = (ref) => {
     this.setState({ containerRef: ref })
   }
@@ -89,8 +90,8 @@ class Main extends React.Component {
     console.log(e.deltaY);
     let newSize = {};
 
-    newSize.width = this.state.size.width * (1 + (0.001 * e.deltaY));
-    newSize.height = this.state.size.height * (1 + (0.001c * e.deltaY));
+    newSize.width = this.state.size.width * (1 - (0.001 * e.deltaY));
+    newSize.height = this.state.size.height * (1 - (0.001 * e.deltaY));
 
     let newPos = this.getNewPosition(this.state.containerRef, this.state.size, this.state.pos, newSize)
 
@@ -101,8 +102,51 @@ class Main extends React.Component {
 
   }
 
+  mouseDown = (e) => {
+    this.isMouseDown = true;
+    this.mouseDownPos = {
+      x: e.pageX,
+      y: e.pageY
+    }
+    this.lastMousePos = {
+      x: e.pageX,
+      y: e.pageY
+    }
 
-  // change size in ste
+  }
+
+  mouseUp = (e) => {
+    this.isMouseDown = false;
+    this.mouseUpPos = {
+      x: e.pageX,
+      y: e.pageY
+    }
+    this.lastMousePos = {
+      x: e.pageX,
+      y: e.pageY
+    }
+  }
+
+  mouseMove = (e) => {
+    if (this.isMouseDown) {
+      let diffX = this.lastMousePos.x - e.pageX;
+      let diffY = this.lastMousePos.y - e.pageY;
+      this.lastMousePos = { x: e.pageX, y: e.pageY }
+      this.setState({
+        pos: {
+          x: this.state.pos.x - diffX,
+          y: this.state.pos.y - diffY
+        }
+
+      })
+
+    }
+  }
+
+  mouseLeave = (e) => {
+    this.isMouseDown = false;
+  }
+
 
 
   render() {
@@ -115,6 +159,10 @@ class Main extends React.Component {
         pos={this.state.pos}
         imageLoaded={this.state.imageLoaded}
         onScroll={this.onScroll}
+        mouseDown={this.mouseDown}
+        mouseUp={this.mouseUp}
+        mouseMove={this.mouseMove}
+        mouseLeave={this.mouseLeave}
       />
     </>)
   }

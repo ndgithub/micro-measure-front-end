@@ -20,7 +20,7 @@ class Micrograph extends React.Component {
   }
 
   render() {
-    console.log('Micrograph.render()');
+    console.log('Micrograph.render() called');
     var myStyle = {};
     if (this.props.imageLoaded === true) {
 
@@ -36,8 +36,15 @@ class Micrograph extends React.Component {
 
 
 
+
+
     return (
-      <div ref={this.myRef} style={myStyle} id="micro-container" onWheel={(e) => this.props.onScroll(e)} >
+      <div ref={this.myRef} style={myStyle} id="micro-container"
+        onWheel={(e) => this.props.onScroll(e)}
+        onMouseDown={(e) => this.props.mouseDown(e)}
+        onMouseUp={(e) => this.props.mouseUp(e)}
+        onMouseMove={(e) => this.props.mouseMove(e)}
+        onMouseLeave={(e) => this.props.mouseLeave(e)} >
         <div id="scale-bar">
           <div id="scale-bar-text"></div>
           <div id="scale-bar-inner-bar"></div>
