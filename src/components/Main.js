@@ -134,23 +134,12 @@ class Main extends React.Component {
     }
   }
 
-  onScaleSet = () => {
-    let inputNum = prompt('What is the length?');
-    this.isScaleSetInProg = false;
 
-    let imgScalePerc = Math.abs(this.scalePts[0].x - this.scalePts[1].x);
-
-    let imgSizeUnits = inputNum / imgScalePerc;
-    console.log('imgSizeUnits', imgSizeUnits);
-    this.setState({
-      imgSizeUnits: imgSizeUnits,
-      useScalebar: true
-    })
-  }
 
   convertToImgPos = (pagePos) => {
-    var imgPtX = ((pagePos.x) - this.state.pos.x) / this.state.size.width;
-    var imgPtY = ((pagePos.y) - this.state.pos.y) / this.state.size.height;
+    // The posisitoin on the page minus the offset of the container and minuse the offset of the image all divided by image widht
+    var imgPtX = (pagePos.x - this.state.containerRef.current.offsetLeft - this.state.pos.x) / this.state.size.width;
+    var imgPtY = (pagePos.y - this.state.containerRef.current.offsetTop - this.state.pos.y) / this.state.size.height;
     return { x: imgPtX, y: imgPtY };
   }
 
@@ -181,16 +170,32 @@ class Main extends React.Component {
   }
 
   /////////////  Prop functions called from Sidebar component ///////////////
-  onClickScalebarbBtn = () => {
+  onClickScalebarBtn = () => {
     this.isScaleSetInProg = true;
+    this.scalePts = [];
     console.log('this.isScaleSetInProg', this.isScaleSetInProg);
   }
+
+  onScaleSet = () => {
+    let inputNum = prompt('What is the length?');
+    this.isScaleSetInProg = false;
+
+    let imgScalePerc = Math.abs(this.scalePts[0].x - this.scalePts[1].x);
+
+    let imgSizeUnits = inputNum / imgScalePerc;
+    console.log('imgSizeUnits', imgSizeUnits);
+    this.setState({
+      imgSizeUnits: imgSizeUnits,
+      useScalebar: true
+    })
+  }
+
 
   render() {
     return (<>
       <Sidebar
         handleFileUpload={this.handleFileUpload}
-        onClickScalebarbBtn={this.onClickScalebarbBtn}
+        onClickScalebarbBtn={this.onClickScalebarBtn}
       />
       <Micrograph
         selectedFile={this.state.selectedFile}

@@ -2,18 +2,10 @@ import React from "react";
 
 function Scalebar(props) {
   console.log('renderScalebar')
-  // props.size    props.imgSizeUnits props.containerSizePx
 
-  console.log(props.size);
-  console.log(props.imgSizeUnits);
-  console.log(props.containerSizePx);
   let imgContainerRatio = props.size.width / props.containerSizePx;
   let containerSizeUnits = props.imgSizeUnits / imgContainerRatio
   let targetLength = containerSizeUnits * 0.3;
-
-
-  // let containerSizeUnits = imgSizeUnits / imgContainerRatio
-  // let imgContainerRatio = this.state.size.width / this.state.containerRef.current.offsetWidth;
 
   var setLength_Units;
 
@@ -56,8 +48,6 @@ function Scalebar(props) {
     width: scalebarWidthPx + 'px'
   }
   return (
-
-
     <div id="scale-bar">
       <div id="scale-bar-text">{setLength_Units}</div>
       <div id="scale-bar-inner-bar" style={scalebarStyle}></div>
@@ -68,48 +58,3 @@ function Scalebar(props) {
 export default Scalebar;
 
 
-// var imageContainerRatio = mg.sizeX / container.getSizeX(); // Changes on zoom
-    // var imageSizeUnits = rawInput / percentOfImageOfInputPoints; //Never changes
-    // var containerSizeXUnits = imageSizeUnits / imageContainerRatio;
-    // targetLength = containerSizeXUnits * 0.3;
-
-    // var setLength_Units;
-
-    // if (targetLength < 1) {
-    //   // In case it's in scientific notation
-    //   targetLength = targetLength.toFixed(20)
-    //   var setLength_Units = '0.'.split('');
-
-    //   var targString = targetLength.toString();
-    //   for (let i = 2; i < targString.length; i++) {
-    //     const digit = targString[i];
-    //     if (digit !== '0') {
-    //       if (targString[i] >= 5) {
-    //         setLength_Units.push('5');
-    //         break;
-    //       } else if (targString[i] < 5) {
-    //         setLength_Units.push('1');
-    //         break;
-    //       }
-    //     } else {
-    //       setLength_Units.push('0');
-    //     }
-    //   }
-    //   setLength_Units = parseFloat(setLength_Units.join(""));
-    // } else {
-    //   setLength_Units = '';
-    //   targetLength = parseInt(targetLength).toString();
-    //   if (targetLength[0] >= 5) {
-    //     setLength_Units += '5';
-    //   } else {
-    //     setLength_Units += '1';
-    //   }
-    //   for (let i = 1; i < targetLength.length; i++) {
-    //     setLength_Units += '0';
-    //   }
-    //   setLength_Units = parseInt(setLength_Units);
-    // }
-    // var setLength_Px = (setLength_Units / containerSizeXUnits) * container.getSizeX();
-
-    // $('#scale-bar-inner-bar').css('width', setLength_Px);
-    // $('#scale-bar-text').text(setLength_Units);
