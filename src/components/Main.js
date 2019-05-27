@@ -10,12 +10,18 @@ class Main extends React.Component {
       imageLoaded: false,
       size: null,
       pos: null,
-      containerRef: null
+      containerRef: null,
+      useScalebar: false,
+      selectedFile: null,
+      origDims: null,
+      imgSizeUnits: null,
     };
 
     this.origDims = null;
     this.isMouseDown = null;
     this.lastMousePos = null;
+    this.isScaleSetInProg = false;
+    this.scalePts = [];
 
   }
 
@@ -104,27 +110,48 @@ class Main extends React.Component {
 
   mouseDown = (e) => {
     this.isMouseDown = true;
-    this.mouseDownPos = {
+    this.lastMouseDownPos = {
       x: e.pageX,
       y: e.pageY
     }
-    this.lastMousePos = {
-      x: e.pageX,
-      y: e.pageY
-    }
-
+    console.log('lastMouseDownPos', this.lastMouseDownPos);
   }
 
   mouseUp = (e) => {
+
     this.isMouseDown = false;
-    this.mouseUpPos = {
+    this.lastMouseUpPos = {
       x: e.pageX,
       y: e.pageY
     }
-    this.lastMousePos = {
-      x: e.pageX,
-      y: e.pageY
+
+    if (this.isScaleSetInProg && !this.wasDragged()) {
+
+      this.scalePts.push(this.convertToImgPos(this.lastMouseUpPos));
+      if (this.scalePts.length === 2) {
+        this.onScaleSet();
+      }
     }
+  }
+
+  onScaleSet = () => {
+    let inputNum = prompt('What is the length?');
+    this.isScaleSetInProg = false;
+
+    let imgScalePerc = Math.abs(this.scalePts[0].x - this.scalePts[1].x);
+
+    let imgSizeUnits = inputNum / imgScalePerc;
+    console.log('imgSizeUnits', imgSizeUnits);
+    this.setState({
+      imgSizeUnits: imgSizeUnits,
+      useScalebar: true
+    })
+  }
+
+  convertToImgPos = (pagePos) => {
+    var imgPtX = ((pagePos.x) - this.state.pos.x) / this.state.size.width;
+    var imgPtY = ((pagePos.y) - this.state.pos.y) / this.state.size.height;
+    return { x: imgPtX, y: imgPtY };
   }
 
   mouseMove = (e) => {
@@ -137,9 +164,9 @@ class Main extends React.Component {
           x: this.state.pos.x - diffX,
           y: this.state.pos.y - diffY
         }
-
       })
-
+    } else {
+      this.lastMousePos = { x: e.pageX, y: e.pageY }
     }
   }
 
@@ -147,22 +174,37 @@ class Main extends React.Component {
     this.isMouseDown = false;
   }
 
+  wasDragged = () => {
+    let dragged = (this.lastMouseDownPos.x !== this.lastMouseUpPos.x && this.lastMouseDownPos.y !== this.lastMouseUpPos.y);
+    console.log('up and down on same posiot', dragged);
+    return dragged;
+  }
 
+  /////////////  Prop functions called from Sidebar component ///////////////
+  onClickScalebarbBtn = () => {
+    this.isScaleSetInProg = true;
+    console.log('this.isScaleSetInProg', this.isScaleSetInProg);
+  }
 
   render() {
     return (<>
-      <Sidebar handleFileUpload={this.handleFileUpload} />
+      <Sidebar
+        handleFileUpload={this.handleFileUpload}
+        onClickScalebarbBtn={this.onClickScalebarbBtn}
+      />
       <Micrograph
         selectedFile={this.state.selectedFile}
         getContainerRef={this.getContainerRef}
         size={this.state.size}
         pos={this.state.pos}
+        imgSizeUnits={this.state.imgSizeUnits}
         imageLoaded={this.state.imageLoaded}
         onScroll={this.onScroll}
         mouseDown={this.mouseDown}
         mouseUp={this.mouseUp}
         mouseMove={this.mouseMove}
         mouseLeave={this.mouseLeave}
+        useScalebar={this.state.useScalebar}
       />
     </>)
   }

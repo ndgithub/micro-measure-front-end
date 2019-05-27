@@ -20,21 +20,11 @@ body {
 #micro-container {
   flex: 1;
   height: 100vh;
-  /* background: url('https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'); */
-  /* background-image: url('./leaf.jpg'); */
   background-repeat: no-repeat;
   background-color: #e0e0f0;
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-end;
-  /* border: 1px solid #000000;
-  text-align: center;
-  width: 80.1%;
-  height: 100%;
-  float: left;
-  overflow: auto;
-  transition: width .5s;
-  padding-right: 250px; */
 }
 
 #scale-bar {

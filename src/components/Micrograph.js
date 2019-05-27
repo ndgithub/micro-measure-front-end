@@ -1,5 +1,5 @@
 import React from "react";
-
+import Scalebar from './Scalebar'
 class Micrograph extends React.Component {
   constructor(props) {
     super(props);
@@ -45,11 +45,12 @@ class Micrograph extends React.Component {
         onMouseUp={(e) => this.props.mouseUp(e)}
         onMouseMove={(e) => this.props.mouseMove(e)}
         onMouseLeave={(e) => this.props.mouseLeave(e)} >
-        <div id="scale-bar">
-          <div id="scale-bar-text"></div>
-          <div id="scale-bar-inner-bar"></div>
-        </div>
-      </div>
+
+        {this.props.useScalebar && <Scalebar size={this.props.size}
+          imgSizeUnits={this.props.imgSizeUnits}
+          containerSizePx={this.myRef.current.offsetWidth} />}
+      </div >
+
     );
   }
 
