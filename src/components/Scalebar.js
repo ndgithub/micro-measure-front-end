@@ -49,7 +49,7 @@ function Scalebar(props) {
   }
   return (
     <div id="scale-bar">
-      <div id="scale-bar-text">{setLength_Units}</div>
+      <div id="scale-bar-text">{setLength_Units + ' ' + props.units}</div>
       <div id="scale-bar-inner-bar" style={scalebarStyle}></div>
     </div>
   );

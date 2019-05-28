@@ -39,7 +39,8 @@ class Micrograph extends React.Component {
 
           {this.props.useScalebar && <Scalebar size={this.props.size}
             imgSizeUnits={this.props.imgSizeUnits}
-            containerSizePx={this.myRef.current.offsetWidth} />}
+            containerSizePx={this.myRef.current.offsetWidth}
+            units={this.props.units} />}
         </div >
 
       );

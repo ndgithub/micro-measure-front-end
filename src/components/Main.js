@@ -15,6 +15,7 @@ class Main extends React.Component {
       selectedFile: null,
       origDims: null,
       imgSizeUnits: null,
+      units: null
     };
 
     this.origDims = null;
@@ -28,6 +29,7 @@ class Main extends React.Component {
 
   // Called from Sidebar when user uploads file
   handleFileUpload = (event) => {
+    if (event.target.files.length === 0) return;
     var url = URL.createObjectURL(event.target.files[0]);
     var img = new Image();
     img.onload = () => {
@@ -41,6 +43,9 @@ class Main extends React.Component {
         pos: initialPos,
         origDims: { width: img.width, height: img.height },
         imageLoaded: true,
+        isScaleSetInProg: false,
+        useScalebar: false,
+
       });
       console.log(this.state);
     }
@@ -178,6 +183,7 @@ class Main extends React.Component {
 
   onScaleSet = () => {
     let inputNum = prompt('What is the length?');
+    let inputUnit = prompt('What are the units?');
     this.isScaleSetInProg = false;
 
     let imgScalePerc = Math.abs(this.scalePts[0].x - this.scalePts[1].x);
@@ -186,7 +192,8 @@ class Main extends React.Component {
     console.log('imgSizeUnits', imgSizeUnits);
     this.setState({
       imgSizeUnits: imgSizeUnits,
-      useScalebar: true
+      useScalebar: true,
+      units: inputUnit
     })
   }
 
@@ -210,6 +217,7 @@ class Main extends React.Component {
         mouseMove={this.mouseMove}
         mouseLeave={this.mouseLeave}
         useScalebar={this.state.useScalebar}
+        units={this.state.units}
       />
     </>)
   }
