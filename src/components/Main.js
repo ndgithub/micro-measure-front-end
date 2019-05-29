@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 import Micrograph from './Micrograph';
+import html2canvas from 'html2canvas';
 
 
 class Main extends React.Component {
@@ -15,7 +16,8 @@ class Main extends React.Component {
       selectedFile: null,
       origDims: null,
       imgSizeUnits: null,
-      units: null
+      units: null,
+      snapUrls: []
     };
 
     this.origDims = null;
@@ -31,6 +33,7 @@ class Main extends React.Component {
   handleFileUpload = (event) => {
     if (event.target.files.length === 0) return;
     var url = URL.createObjectURL(event.target.files[0]);
+    console.log(url);
     var img = new Image();
     img.onload = () => {
       this.origDims = { width: img.width, height: img.height };
@@ -45,13 +48,9 @@ class Main extends React.Component {
         imageLoaded: true,
         isScaleSetInProg: false,
         useScalebar: false,
-
       });
-      console.log(this.state);
     }
     img.src = url;
-
-
   };
 
 
@@ -138,16 +137,6 @@ class Main extends React.Component {
       }
     }
   }
-
-
-
-  convertToImgPos = (pagePos) => {
-    // The posisitoin on the page minus the offset of the container and minuse the offset of the image all divided by image widht
-    var imgPtX = (pagePos.x - this.state.containerRef.current.offsetLeft - this.state.pos.x) / this.state.size.width;
-    var imgPtY = (pagePos.y - this.state.containerRef.current.offsetTop - this.state.pos.y) / this.state.size.height;
-    return { x: imgPtX, y: imgPtY };
-  }
-
   mouseMove = (e) => {
     if (this.isMouseDown) {
       let diffX = this.lastMousePos.x - e.pageX;
@@ -173,6 +162,14 @@ class Main extends React.Component {
     console.log('up and down on same posiot', dragged);
     return dragged;
   }
+  convertToImgPos = (pagePos) => {
+    // The posisitoin on the page minus the offset of the container and minuse the offset of the image all divided by image widht
+    var imgPtX = (pagePos.x - this.state.containerRef.current.offsetLeft - this.state.pos.x) / this.state.size.width;
+    var imgPtY = (pagePos.y - this.state.containerRef.current.offsetTop - this.state.pos.y) / this.state.size.height;
+    return { x: imgPtX, y: imgPtY };
+  }
+
+
 
   /////////////  Prop functions called from Sidebar component ///////////////
   onClickScalebarBtn = () => {
@@ -197,12 +194,22 @@ class Main extends React.Component {
     })
   }
 
+  onSaveSnapClicked = () => {
+    html2canvas(this.state.containerRef.current, { logging: false }).then(canvas => {
+      let canvDataUrl = canvas.toDataURL();
+      this.setState(prevState => ({
+        snapUrls: [canvDataUrl, ...prevState.snapUrls]
+      }), () => console.log(this.state.snapUrls.length));
+    });
+  }
 
   render() {
     return (<>
       <Sidebar
         handleFileUpload={this.handleFileUpload}
         onClickScalebarbBtn={this.onClickScalebarBtn}
+        onSaveSnapClicked={this.onSaveSnapClicked}
+        snapUrls={this.state.snapUrls}
       />
       <Micrograph
         selectedFile={this.state.selectedFile}

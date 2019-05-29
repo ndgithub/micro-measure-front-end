@@ -58,6 +58,27 @@ body {
   padding: 16px;
 }
 
+.snapshots-list {
+  overflow: auto;
+  height: 500px;
+}
+
+.snapshot-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.snapshot-img-container {}
+
+.title-input-field {}
+
+img.snapshot {
+  object-fit: contain;
+  height: 100px;
+  width: 100px;
+}
+
 @media screen and (max-height: 450px) {
   .sidenav {}
   .sidenav a {}
