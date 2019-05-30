@@ -18,14 +18,15 @@ class Main extends React.Component {
       origDims: null,
       imgSizeUnits: null,
       units: null,
-      snapUrls: []
+      snapUrls: [],
+      scalePts: [],
     };
 
     this.origDims = null;
     this.isMouseDown = null;
     this.lastMousePos = null;
     // this.isScaleSetInProg = false;
-    this.scalePts = [];
+
 
   }
 
@@ -130,13 +131,24 @@ class Main extends React.Component {
       x: e.pageX,
       y: e.pageY
     }
-    // is scalebar setting is in progress and wasn't dragged, its a click pt. 
+    console.log('*****', (this.state.isScalebarChecked && !this.state.isScalebarSet));
+    // if scalebar setting is in progress and wasn't dragged, its a click pt. 
     if ((this.state.isScalebarChecked && !this.state.isScalebarSet) && !this.wasDragged()) {
 
-      this.scalePts.push(this.convertToImgPos(this.lastMouseUpPos));
-      if (this.scalePts.length === 2) {
-        this.onScaleSet();
-      }
+
+      this.setState(prevState => ({
+        scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
+      }), () => {
+        if (this.state.scalePts.length === 2) {
+          this.onScaleSet();
+        }
+      });
+
+
+      // this.scalePts.push(this.convertToImgPos(this.lastMouseUpPos));
+      // if (this.scalePts.length === 2) {
+      //   this.onScaleSet();
+      // }
     }
   }
   mouseMove = (e) => {
@@ -197,7 +209,7 @@ class Main extends React.Component {
     let inputUnit = prompt('What are the units?');
     this.isScaleSetInProg = false;
 
-    let imgScalePerc = Math.abs(this.scalePts[0].x - this.scalePts[1].x);
+    let imgScalePerc = Math.abs(this.state.scalePts[0].x - this.state.scalePts[1].x);
 
     let imgSizeUnits = inputNum / imgScalePerc;
     console.log('imgSizeUnits', imgSizeUnits);
@@ -225,7 +237,7 @@ class Main extends React.Component {
         onSaveSnapClicked={this.onSaveSnapClicked}
         snapUrls={this.state.snapUrls}
         imageLoaded={this.state.imageLoaded}
-        scalePtsLength={this.scalePts.length}
+        scalePtsLength={this.state.scalePts.length}
         onCheckUseScalebar={this.onCheckUseScalebar}
         isScalebarChecked={this.state.isScalebarChecked}
         isScalebarSet={this.state.isScalebarSet}

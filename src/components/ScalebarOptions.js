@@ -22,6 +22,15 @@ class ScalebarOptions extends React.Component {
   }
 
   render() {
+    console.log('scaleptslength', this.props.scalePtsLength);
+    let boldStyle = {
+      fontWeight: 'bold'
+    }
+
+    let regularStyle = {
+      fontWeight: 'normal'
+    }
+
     return (<>
       <input type="checkbox"
         name="Use-Scalebar"
@@ -31,7 +40,11 @@ class ScalebarOptions extends React.Component {
       /><label for="Use-Scalebar">Use Scalebar</label>
 
       {this.props.isScalebarChecked && !this.props.isScalebarSet &&
-        <><p>Click First End Point of Scale Bar</p>
+        <>
+          <p style={(this.props.scalePtsLength === 0) ? boldStyle : {}}>Click 1st End Point of Scale Bar</p>
+          <p style={(this.props.scalePtsLength === 1) ? boldStyle : {}}>Click 2nd End Point of Scale Bar</p>
+          <p style={boldStyle}>asdfa</p>
+
           <input type='text' value='asdf'></input>
           <input type='text' value='asdf'></input>
         </>}
