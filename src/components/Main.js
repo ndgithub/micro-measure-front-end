@@ -12,7 +12,8 @@ class Main extends React.Component {
       size: null,
       pos: null,
       containerRef: null,
-      useScalebar: false,
+      isScalebarSet: false, // Used to be useScalebar
+      isScalebarChecked: false,
       selectedFile: null,
       origDims: null,
       imgSizeUnits: null,
@@ -23,7 +24,7 @@ class Main extends React.Component {
     this.origDims = null;
     this.isMouseDown = null;
     this.lastMousePos = null;
-    this.isScaleSetInProg = false;
+    // this.isScaleSetInProg = false;
     this.scalePts = [];
 
   }
@@ -46,8 +47,9 @@ class Main extends React.Component {
         pos: initialPos,
         origDims: { width: img.width, height: img.height },
         imageLoaded: true,
-        isScaleSetInProg: false,
-        useScalebar: false,
+        // isScaleSetInProg: false,
+        isScalebarSet: false,
+        isScalebarChecked: false
       });
     }
     img.src = url;
@@ -128,8 +130,8 @@ class Main extends React.Component {
       x: e.pageX,
       y: e.pageY
     }
-
-    if (this.isScaleSetInProg && !this.wasDragged()) {
+    // is scalebar setting is in progress and wasn't dragged, its a click pt. 
+    if ((this.state.isScalebarChecked && !this.state.isScalebarSet) && !this.wasDragged()) {
 
       this.scalePts.push(this.convertToImgPos(this.lastMouseUpPos));
       if (this.scalePts.length === 2) {
@@ -172,10 +174,22 @@ class Main extends React.Component {
 
 
   /////////////  Prop functions called from Sidebar component ///////////////
-  onClickScalebarBtn = () => {
-    this.isScaleSetInProg = true;
-    this.scalePts = [];
-    console.log('this.isScaleSetInProg', this.isScaleSetInProg);
+  // onClickScalebarBtn = () => {
+  //   this.isScaleSetInProg = true;
+
+  // }
+
+  onCheckUseScalebar = (e) => {
+
+    console.log(e.target.checked);
+    this.setState({
+      isScalebarChecked: e.target.checked
+    });
+
+    // if checked and scalebar is already set, use scalebar - this is new.
+    // if not it is in progress. 
+    this.isScaleSetInProg = true; //don't need this
+
   }
 
   onScaleSet = () => {
@@ -189,7 +203,7 @@ class Main extends React.Component {
     console.log('imgSizeUnits', imgSizeUnits);
     this.setState({
       imgSizeUnits: imgSizeUnits,
-      useScalebar: true,
+      scalebarSet: true,
       units: inputUnit
     })
   }
@@ -207,9 +221,15 @@ class Main extends React.Component {
     return (<>
       <Sidebar
         handleFileUpload={this.handleFileUpload}
-        onClickScalebarbBtn={this.onClickScalebarBtn}
+        onClickScalebarBtn={this.onClickScalebarBtn}
         onSaveSnapClicked={this.onSaveSnapClicked}
         snapUrls={this.state.snapUrls}
+        imageLoaded={this.state.imageLoaded}
+        scalePtsLength={this.scalePts.length}
+        onCheckUseScalebar={this.onCheckUseScalebar}
+        isScalebarChecked={this.state.isScalebarChecked}
+        isScalebarSet={this.state.isScalebarSet}
+
       />
       <Micrograph
         selectedFile={this.state.selectedFile}
@@ -223,7 +243,8 @@ class Main extends React.Component {
         mouseUp={this.mouseUp}
         mouseMove={this.mouseMove}
         mouseLeave={this.mouseLeave}
-        useScalebar={this.state.useScalebar}
+        isScalebarSet={this.state.isScalebarSet}
+        isScalebarChecked={this.state.isScalebarChecked}
         units={this.state.units}
       />
     </>)

@@ -16,7 +16,7 @@ body {
   background: url('./images/micro-measure-logo.png');
   background-size: contain;
   width: 100%;
-  height: 80px;
+  height: 70px;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -78,6 +78,7 @@ body {
   flex-wrap: wrap;
   height: 500px;
   align-content: flex-start;
+  background: #e0e0f0
 }
 
 .snapshot-container {
@@ -89,7 +90,7 @@ body {
   border: 1px solid #e0e0f0;
   background: #e0e0f0;
   height: 80px;
-  width: 120px;
+  width: 118px;
 }
 
 .title-input-field {}
@@ -97,7 +98,7 @@ body {
 img.snapshot {
   object-fit: contain;
   height: 80px;
-  width: 120px;
+  width: 118px;
 }
 
 @media screen and (max-height: 450px) {

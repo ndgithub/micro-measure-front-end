@@ -37,7 +37,7 @@ class Micrograph extends React.Component {
           onMouseMove={(e) => this.props.mouseMove(e)}
           onMouseLeave={(e) => this.props.mouseLeave(e)} >
 
-          {this.props.useScalebar && <Scalebar size={this.props.size}
+          {this.props.isScalebarSet && this.props.isScalebarChecked && <Scalebar size={this.props.size}
             imgSizeUnits={this.props.imgSizeUnits}
             containerSizePx={this.myRef.current.offsetWidth}
             units={this.props.units} />}
