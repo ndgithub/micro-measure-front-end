@@ -20,6 +20,8 @@ class Main extends React.Component {
       units: null,
       snapUrls: [],
       scalePts: [],
+      inputLengthValue: '',
+      inputUnitsValue: '',
     };
 
     this.origDims = null;
@@ -50,7 +52,10 @@ class Main extends React.Component {
         imageLoaded: true,
         // isScaleSetInProg: false,
         isScalebarSet: false,
-        isScalebarChecked: false
+        isScalebarChecked: false,
+        inputLengthValue: '',
+        inputUnitsValue: '',
+        scalePts: []
       });
     }
     img.src = url;
@@ -131,26 +136,58 @@ class Main extends React.Component {
       x: e.pageX,
       y: e.pageY
     }
-    console.log('*****', (this.state.isScalebarChecked && !this.state.isScalebarSet));
     // if scalebar setting is in progress and wasn't dragged, its a click pt. 
     if ((this.state.isScalebarChecked && !this.state.isScalebarSet) && !this.wasDragged()) {
-
-
       this.setState(prevState => ({
         scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
-      }), () => {
-        if (this.state.scalePts.length === 2) {
-          this.onScaleSet();
-        }
-      });
-
-
-      // this.scalePts.push(this.convertToImgPos(this.lastMouseUpPos));
-      // if (this.scalePts.length === 2) {
-      //   this.onScaleSet();
-      // }
+      }));
     }
   }
+
+  onCheckUseScalebar = (e) => {
+    console.log(e.target.checked);
+    this.setState({
+      isScalebarChecked: e.target.checked
+    });
+
+    // if checked and scalebar is already set, use scalebar - this is new.
+    // if not it is in progress. 
+    //this.isScaleSetInProg = true; //don't need this
+
+  }
+
+  onScaleSet = () => {
+    let inputNum = prompt('What is the length?');
+    let inputUnit = prompt('What are the units?');
+    this.isScaleSetInProg = false;
+
+    let imgScalePerc = Math.abs(this.state.scalePts[0].x - this.state.scalePts[1].x);
+
+    let imgSizeUnits = inputNum / imgScalePerc;
+    console.log('imgSizeUnits', imgSizeUnits);
+    this.setState({
+      imgSizeUnits: imgSizeUnits,
+      isScalebarSet: true,
+      units: inputUnit
+    })
+  }
+
+  onClickDoneSetting = () => {
+    console.log('onClickDoneSetting  called from Mains');
+    this.isScaleSetInProg = false;
+    let imgScalePerc = Math.abs(this.state.scalePts[0].x - this.state.scalePts[1].x);
+
+    let imgSizeUnits = this.state.inputLengthValue / imgScalePerc;
+    console.log('imgSizeUnits', imgSizeUnits);
+    this.setState({
+      imgSizeUnits: imgSizeUnits,
+      isScalebarSet: true,
+      units: this.state.inputUnitsValue
+
+    })
+
+  }
+
   mouseMove = (e) => {
     if (this.isMouseDown) {
       let diffX = this.lastMousePos.x - e.pageX;
@@ -169,6 +206,22 @@ class Main extends React.Component {
 
   mouseLeave = (e) => {
     this.isMouseDown = false;
+  }
+
+  onInputLengthChange = (e) => {
+    e.preventDefault();
+    this.setState({
+      inputLengthValue: e.target.value,
+
+    })
+
+  }
+
+  onInputUnitsChange = (e) => {
+    this.setState({
+      inputUnitsValue: e.target.value,
+
+    })
   }
 
   wasDragged = () => {
@@ -191,34 +244,8 @@ class Main extends React.Component {
 
   // }
 
-  onCheckUseScalebar = (e) => {
 
-    console.log(e.target.checked);
-    this.setState({
-      isScalebarChecked: e.target.checked
-    });
 
-    // if checked and scalebar is already set, use scalebar - this is new.
-    // if not it is in progress. 
-    this.isScaleSetInProg = true; //don't need this
-
-  }
-
-  onScaleSet = () => {
-    let inputNum = prompt('What is the length?');
-    let inputUnit = prompt('What are the units?');
-    this.isScaleSetInProg = false;
-
-    let imgScalePerc = Math.abs(this.state.scalePts[0].x - this.state.scalePts[1].x);
-
-    let imgSizeUnits = inputNum / imgScalePerc;
-    console.log('imgSizeUnits', imgSizeUnits);
-    this.setState({
-      imgSizeUnits: imgSizeUnits,
-      scalebarSet: true,
-      units: inputUnit
-    })
-  }
 
   onSaveSnapClicked = () => {
     html2canvas(this.state.containerRef.current, { logging: false }).then(canvas => {
@@ -227,6 +254,17 @@ class Main extends React.Component {
         snapUrls: [canvDataUrl, ...prevState.snapUrls]
       }), () => console.log(this.state.snapUrls.length));
     });
+  }
+
+  onClickResetScalebar = () => {
+    this.setState({
+      isScalebarSet: false,
+      isScalebarChecked: true,
+      inputLengthValue: '',
+      inputUnitsValue: '',
+      scalePts: []
+    })
+
   }
 
   render() {
@@ -241,6 +279,12 @@ class Main extends React.Component {
         onCheckUseScalebar={this.onCheckUseScalebar}
         isScalebarChecked={this.state.isScalebarChecked}
         isScalebarSet={this.state.isScalebarSet}
+        onInputLengthChange={this.onInputLengthChange}
+        onInputUnitsChange={this.onInputUnitsChange}
+        inputLengthValue={this.state.inputLengthValue}
+        inputUnitsValue={this.state.inputUnitsChange}
+        onClickDoneSetting={this.onClickDoneSetting}
+        onClickResetScalebar={this.onClickResetScalebar}
 
       />
       <Micrograph

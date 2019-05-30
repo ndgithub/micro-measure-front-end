@@ -1,5 +1,6 @@
 body {
   overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #root {
@@ -12,6 +13,18 @@ body {
   background-size: 40px;
 }
 
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 300px;
+  background-color: white;
+  height: 100vh;
+  padding: 10px;
+  background: #fefeff;
+  border-right: 2px solid #cccccd;
+}
+
 #logo-container {
   background: url('./images/micro-measure-logo.png');
   background-size: contain;
@@ -19,15 +32,13 @@ body {
   height: 70px;
   background-repeat: no-repeat;
   background-position: center;
+  margin-bottom: 16px;
 }
 
-#sidebar {
-  width: 300px;
-  background-color: white;
-  height: 100vh;
-  padding: 10px;
-  background: #fefeff;
-  border-right: 2px solid #cccccd;
+h2#section-title {
+  border-bottom: 1px solid #333334;
+  font-size: 20px;
+  padding-bottom: 4px;
 }
 
 #micro-container {
@@ -60,10 +71,6 @@ body {
   margin-right: auto;
 }
 
-#set-scalebar-button {
-  width: 100%;
-}
-
 #scalebar-info {}
 
 #main {
@@ -71,12 +78,16 @@ body {
   padding: 16px;
 }
 
+#file-upload {
+  margin: 16px 0px 16px 0px;
+}
+
 .snapshots-list {
+  flex: 1;
   overflow: auto;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  height: 500px;
   align-content: flex-start;
   background: #e0e0f0
 }
@@ -99,6 +110,61 @@ img.snapshot {
   object-fit: contain;
   height: 80px;
   width: 118px;
+}
+
+/* div */
+
+#scalebar-options-container {
+  margin-bottom: 16px;
+}
+
+#useScalebar-checkbox-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+#reset-scalebar-container {
+  text-align: right;
+  flex: 1;
+}
+
+#reset-scalebar {
+  color: #999999;
+  padding-right: 8px;
+  border: none;
+}
+
+input[type="text"]::-webkit-input-placeholder {
+  color: #999999;
+}
+
+#input-enter-length {
+  width: 100px;
+  margin-right: 8px;
+}
+
+#input-enter-units {
+  width: 60px;
+}
+
+#scalebar-options-text-inputs-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#use-scalebar-input {
+  margin: 0px 8px 4px 0px;
+}
+
+#input-fields {
+  width: 100%;
+  padding-left: 23px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 150px;
 }
 
 @media screen and (max-height: 450px) {

@@ -24,9 +24,9 @@ class Snapshot extends React.Component {
   render() {
     return (
       <div className='snapshot-container'>
-        <div className="snapshot-img-container">
+        <a href={this.props.imgSrc} download="asdf.jpg" className="snapshot-img-container">
           <img src={this.props.imgSrc} alt='' className='snapshot'></img>
-        </div>
+        </a>
         {/* <div className="snapshot-input-fields">
           <input className='title-input-field' type="text" id="blah" value={this.state.inputValue}
             onChange={(e) => this.setState({ inputValue: e.target.value })}
