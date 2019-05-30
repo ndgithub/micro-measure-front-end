@@ -1,33 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
+class Snapshot extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: 'Untitled',
+      inputStyle: null,
+    };
+    // this.inputRef = React.createRef();
 
-
-
-function Snapshot(props) {
-  const [inputValue, setValue] = useState(
-    'Untitled'
-  );
-
-  const [style, setStyle] = useState({});
-
-  const onKeyDown = (e) => {
-    if (e.keyCode === 13) e.target.blur();
   }
 
+  onKeyDown = (e) => {
+    // if (e.keyCode === 13) e.target.blur();
+  }
 
-  return (
-    <div className='snapshot-container'>
-      <div className="img-container">
-        <img src={props.imgSrc} alt='' className='snapshot'></img>
+  componentDidMount() {
+    // this.inputRef.focus();
+  }
+
+  componentDidUpdate() {
+  }
+
+  render() {
+    return (
+      <div className='snapshot-container'>
+        <div className="snapshot-img-container">
+          <img src={this.props.imgSrc} alt='' className='snapshot'></img>
+        </div>
+        {/* <div className="snapshot-input-fields">
+          <input className='title-input-field' type="text" id="blah" value={this.state.inputValue}
+            onChange={(e) => this.setState({ inputValue: e.target.value })}
+            onKeyDown={this.onKeyDown}
+            onBlur={() => this.setState({ inputStyle: { border: 'none' } })}
+            style={this.state.inputStyle}
+             />
+        </div> */}
       </div>
-      <div className="snapshot-input-fields">
-        <input className='title-input-field' type="text" id="blah" value={inputValue}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={onKeyDown}
-          onBlur={() => setStyle({ border: 'none' })}
-          style={style} />
-      </div>
-    </div>
-  )
+    )
+  }
+
 }
 
 export default Snapshot;

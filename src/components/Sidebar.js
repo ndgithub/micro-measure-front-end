@@ -4,7 +4,7 @@ import Snapshots from './Snapshots';
 function Sidebar(props) {
   return (
     <div id="sidebar">
-
+      <div id="logo-container"></div>
       <input type="file" id="file-upload" onChange={(event) => props.handleFileUpload(event)} />
       <button id="set-scalebar-button" className="btn btn-primary" onClick={props.onClickScalebarbBtn}>Set Scalebar</button>
       <button id="save-snapshot" onClick={props.onSaveSnapClicked}>Save Snapshot</button>
