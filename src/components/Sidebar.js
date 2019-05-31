@@ -2,6 +2,8 @@ import React from "react";
 import Snapshots from './Snapshots';
 import ScalebarOptions from './ScalebarOptions';
 
+
+
 class Sidebar extends React.Component {
   constructor(props) {
     //PROPS
@@ -31,8 +33,9 @@ class Sidebar extends React.Component {
       <div id="sidebar">
         <div id="logo-container"></div>
         <div id="image-options">
-          <h2 id="section-title">Image</h2>
+
           <input type="file" id="file-upload" onChange={(event) => this.props.handleFileUpload(event)} />
+
           {this.props.imageLoaded &&
             <ScalebarOptions
               numPtsClicked={this.props.numPtsClicked}
@@ -49,9 +52,11 @@ class Sidebar extends React.Component {
             />
           }
         </div>
-        <h2 id="section-title">Snapshots</h2>
-        <button id="save-snapshot" onClick={this.props.onSaveSnapClicked}>Save Snapshot</button>
-        <Snapshots snapUrls={this.props.snapUrls} />
+        {this.props.imageLoaded &&
+          (<>
+            <button id="save-snapshot" className="btn btn-primary" onClick={this.props.onSaveSnapClicked}><i className="fas fa-camera"></i>   &nbsp;&nbsp;Take Snapshot</button>
+            <Snapshots snapUrls={this.props.snapUrls} />
+          </>)}
       </div>
     );
   }

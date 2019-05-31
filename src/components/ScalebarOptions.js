@@ -64,6 +64,7 @@ class ScalebarOptions extends React.Component {
             <button id="reset-scalebar" onClick={this.props.onClickResetScalebar}>Reset</button>
           </div>)}
       </div>
+
       {this.props.isScalebarChecked && !this.props.isScalebarSet &&
         <div id="input-fields">
           <p style={(this.props.scalePtsLength === 0) ? boldStyle : lightStyle}>
@@ -92,9 +93,9 @@ class ScalebarOptions extends React.Component {
 
             </input>
           </div>
-          <button id="set-scalebar-button" className="btn btn-primary" onClick={this.props.onClickDoneSetting}>Done</button>
-
-        </div>}
+          <button id="set-scalebar-button" className="btn btn-outline-primary" onClick={this.props.onClickDoneSetting}>Done</button>
+        </div>
+      }
     </div>)
   }
 

@@ -1,4 +1,7 @@
 import React from 'react';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
+
 class Snapshot extends React.Component {
   constructor(props) {
     super(props);
@@ -7,7 +10,33 @@ class Snapshot extends React.Component {
       inputStyle: null,
     };
     this.inputRef = React.createRef();
+  }
 
+  clickDownload = () => {
+    function dataURItoBlob(dataURI) {
+      // convert base64 to raw binary data held in a string
+      // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+      var byteString = atob(dataURI.split(',')[1]);
+
+      // separate out the mime component
+      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+      // write the bytes of the string to an ArrayBuffer
+      var ab = new ArrayBuffer(byteString.length);
+
+      // create a view into the buffer
+      var ia = new Uint8Array(ab);
+
+      // set the bytes of the buffer to the correct values
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+
+      // write the ArrayBuffer to a blob, and you're done
+      var blob = new Blob([ab], { type: mimeString });
+      return blob;
+    }
+    saveAs(new Blob([dataURItoBlob(this.props.imgSrc)], { type: 'image/jpeg' }), this.state.inputValue)
   }
 
   onKeyDown = (e) => {
@@ -17,7 +46,7 @@ class Snapshot extends React.Component {
   componentDidMount() {
 
     this.inputRef.current.focus();
-
+    this.inputRef.current.select();
   }
 
   componentDidUpdate() {
@@ -36,7 +65,8 @@ class Snapshot extends React.Component {
         <div className="snapshot-input-fields">
           <input ref={this.inputRef} className='title-input-field' type="text" id="blah" value={this.state.inputValue}
             style={myStyle} onKeyDown={this.onKeyDown} onChange={(e) => this.setState({ inputValue: e.target.value })} />
-          <a href={this.props.imgSrc} download={this.state.inputValue}>Download</a>
+          {/* <a href={this.blobUrl} download={this.state.inputValue}>Downloasd</a> */}
+          <div onClick={this.clickDownload} >Download</div>
         </div>
       </div>
     )

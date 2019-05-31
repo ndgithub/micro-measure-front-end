@@ -1,6 +1,6 @@
 body {
   overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto Slab', Arial, Helvetica, sans-serif;
 }
 
 #root {
@@ -27,7 +27,7 @@ body {
 }
 
 #logo-container {
-  /* background: url('./images/micro-measure-logo.png'); */
+  background: url('./images/micro-measure-logo.png');
   background-size: contain;
   width: 100%;
   height: 70px;
@@ -105,21 +105,22 @@ h2#section-title {
 }
 
 .snapshot-img-container {
-  border: 1px solid #e0e0f0;
-  background: #e0e0f0;
+  background: #000000;
   height: 80px;
   width: 118px;
   margin-right: 8px;
+  border: 2px solid #000000;
 }
 
 .title-input-field {
   font-weight: bold;
+  width: 120px;
 }
 
 img.snapshot {
   object-fit: contain;
-  height: 80px;
-  width: 118px;
+  height: 76px;
+  width: 114px;
 }
 
 /* div */
@@ -138,6 +139,11 @@ img.snapshot {
 #reset-scalebar-container {
   text-align: right;
   flex: 1;
+}
+
+#set-scalebar-button {
+  width: 168px;
+  padding: 2px 2px;
 }
 
 #reset-scalebar {
@@ -175,6 +181,12 @@ input[type="text"]::-webkit-input-placeholder {
   flex-direction: column;
   justify-content: space-evenly;
   height: 150px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+#save-snapshot {
+  margin-bottom: 16px;
 }
 
 @media screen and (max-height: 450px) {
