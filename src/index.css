@@ -9,7 +9,8 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  background: url('./images/checkerbg.png');
+  background: url('./images/lightBg2.jpg');
+  background-color: #fefeff;
   background-size: 40px;
 }
 
@@ -22,11 +23,11 @@ body {
   height: 100vh;
   padding: 10px;
   background: #fefeff;
-  border-right: 2px solid #cccccd;
+  border-right: 2px solid #dddddd;
 }
 
 #logo-container {
-  background: url('./images/micro-measure-logo.png');
+  /* background: url('./images/micro-measure-logo.png'); */
   background-size: contain;
   width: 100%;
   height: 70px;
@@ -89,12 +90,18 @@ h2#section-title {
   justify-content: flex-start;
   flex-wrap: wrap;
   align-content: flex-start;
-  background: #e0e0f0
 }
 
 .snapshot-container {
   /* height: 200px; */
-  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+}
+
+.snapshot-input-fields {
+  padding-top: 4px;
 }
 
 .snapshot-img-container {
@@ -102,9 +109,12 @@ h2#section-title {
   background: #e0e0f0;
   height: 80px;
   width: 118px;
+  margin-right: 8px;
 }
 
-.title-input-field {}
+.title-input-field {
+  font-weight: bold;
+}
 
 img.snapshot {
   object-fit: contain;

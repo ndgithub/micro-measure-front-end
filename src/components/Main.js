@@ -251,7 +251,7 @@ class Main extends React.Component {
     html2canvas(this.state.containerRef.current, { logging: false }).then(canvas => {
       let canvDataUrl = canvas.toDataURL();
       this.setState(prevState => ({
-        snapUrls: [canvDataUrl, ...prevState.snapUrls]
+        snapUrls: [...prevState.snapUrls, canvDataUrl]
       }), () => console.log(this.state.snapUrls.length));
     });
   }

@@ -6,35 +6,38 @@ class Snapshot extends React.Component {
       inputValue: 'Untitled',
       inputStyle: null,
     };
-    // this.inputRef = React.createRef();
+    this.inputRef = React.createRef();
 
   }
 
   onKeyDown = (e) => {
-    // if (e.keyCode === 13) e.target.blur();
+    if (e.keyCode === 13) this.inputRef.current.blur();
   }
 
   componentDidMount() {
-    // this.inputRef.focus();
+
+    this.inputRef.current.focus();
+
   }
 
   componentDidUpdate() {
   }
 
   render() {
+    let myStyle = {
+      border: 'none'
+    }
+
     return (
       <div className='snapshot-container'>
-        <a href={this.props.imgSrc} download="asdf.jpg" className="snapshot-img-container">
+        <div className="snapshot-img-container">
           <img src={this.props.imgSrc} alt='' className='snapshot'></img>
-        </a>
-        {/* <div className="snapshot-input-fields">
-          <input className='title-input-field' type="text" id="blah" value={this.state.inputValue}
-            onChange={(e) => this.setState({ inputValue: e.target.value })}
-            onKeyDown={this.onKeyDown}
-            onBlur={() => this.setState({ inputStyle: { border: 'none' } })}
-            style={this.state.inputStyle}
-             />
-        </div> */}
+        </div>
+        <div className="snapshot-input-fields">
+          <input ref={this.inputRef} className='title-input-field' type="text" id="blah" value={this.state.inputValue}
+            style={myStyle} onKeyDown={this.onKeyDown} onChange={(e) => this.setState({ inputValue: e.target.value })} />
+          <a href={this.props.imgSrc} download={this.state.inputValue}>Download</a>
+        </div>
       </div>
     )
   }

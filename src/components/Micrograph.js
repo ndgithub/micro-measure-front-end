@@ -48,7 +48,7 @@ class Micrograph extends React.Component {
       myStyle = {};
       return (
         <div ref={this.myRef} id="micro-container">
-          Image not loaded yet
+
         </div >
 
       );
