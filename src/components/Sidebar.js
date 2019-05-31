@@ -64,7 +64,7 @@ class Sidebar extends React.Component {
         </div>
         {this.props.imageLoaded &&
           (<>
-            <button id="save-snapshot" className="btn btn-primary" onClick={this.props.onSaveSnapClicked}><i className="fas fa-camera"> --------</i> </button>&nbsp;&nbsp;Take Snapshot
+            <button id="save-snapshot" className="btn btn-primary" onClick={this.props.onSaveSnapClicked}><i className="fas fa-camera">&nbsp;&nbsp;Take Snapshot</i> </button>
             <Snapshots snapUrls={this.props.snapUrls} />
           </>)}
       </div>

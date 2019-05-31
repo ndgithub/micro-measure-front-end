@@ -61,12 +61,16 @@ class MiniView extends React.Component {
   render() {
     let miniviewStyle = {};
     let miniBoxStyle = {};
-
+    let extraContainerStyle = {};
+    let extraextra = {};
+    let something = {};
     if (this.state.bgSize !== null) {
       miniviewStyle = {
         backgroundImage: 'url(' + this.props.selectedFile + ')',
         backgroundSize: Math.floor(this.state.bgSize.width) + 'px ' + Math.floor(this.state.bgSize.height) + 'px',
         backgroundPosition: Math.floor(this.state.bgPos.x) + 'px ' + Math.floor(this.state.bgPos.y) + 'px',
+
+
       }
 
       let boxLeftPos = ((-1 * this.props.pos.x / this.props.size.width) * this.state.bgSize.width) + this.state.bgPos.x
@@ -90,22 +94,49 @@ class MiniView extends React.Component {
         boxHeight = this.miniRef.current.offsetHeight - boxTopPos - (this.state.bgPos.y)
       }
 
-
-
-
-
       miniBoxStyle = {
+        position: 'absolute',
         top: boxTopPos,
         left: boxLeftPos,
         width: boxWidth,
         height: boxHeight,
+        backgroundImage: 'url(' + this.props.selectedFile + ')',
+        backgroundPosition: (-boxLeftPos + 5) + 'px ' + (-boxTopPos) + 'px',
+        backgroundSize: Math.floor(this.state.bgSize.width) + 'px ' + Math.floor(this.state.bgSize.height) + 'px',
+        zIndex: 10
+
+      }
+
+      extraContainerStyle = {
+        position: 'relative',
+
+        textAlign: 'center'
+      }
+      extraextra = {
+        width: this.state.bgSize.width,
+        position: 'relative',
+        backgroundColor: '#000000',
+
+      }
+
+      something = {
+        backgroundColor: '#000000',
+        opacity: 0.5,
+        width: this.state.bgSize.width,
+        height: this.state.bgSize.height,
+        marginLeft: this.state.bgPos.x
       }
 
     }
     return (
-      <div ref={this.miniRef} id="mini-view-container" style={miniviewStyle}>
-        <div id="mini-box" style={miniBoxStyle}></div>
-      </div >
+      <div id="extra-container" style={extraContainerStyle} >
+        <div id="extra-extra-container" stlye={extraextra}>
+          <div id="mini-box" style={miniBoxStyle}></div>
+          <div ref={this.miniRef} id="mini-view-container" style={miniviewStyle}>
+            <div style={something}></div>
+          </div >
+        </div>
+      </div>
     )
   }
 
