@@ -285,6 +285,11 @@ class Main extends React.Component {
         inputUnitsValue={this.state.inputUnitsChange}
         onClickDoneSetting={this.onClickDoneSetting}
         onClickResetScalebar={this.onClickResetScalebar}
+        selectedFile={this.state.selectedFile}
+        containerRef={this.state.containerRef}
+        size={this.state.size}
+        pos={this.state.pos}
+        origDims={this.state.origDims}
 
       />
       <Micrograph

@@ -1,7 +1,7 @@
 import React from "react";
 import Snapshots from './Snapshots';
 import ScalebarOptions from './ScalebarOptions';
-
+import MiniView from './MiniView'
 
 
 class Sidebar extends React.Component {
@@ -32,6 +32,16 @@ class Sidebar extends React.Component {
     return (
       <div id="sidebar">
         <div id="logo-container"></div>
+
+        {this.props.imageLoaded &&
+          <MiniView
+            selectedFile={this.props.selectedFile}
+            containerRef={this.props.containerRef}
+            size={this.props.size}
+            pos={this.props.pos}
+            origDims={this.props.origDims}
+
+          />}
         <div id="image-options">
 
           <input type="file" id="file-upload" onChange={(event) => this.props.handleFileUpload(event)} />
@@ -54,7 +64,7 @@ class Sidebar extends React.Component {
         </div>
         {this.props.imageLoaded &&
           (<>
-            <button id="save-snapshot" className="btn btn-primary" onClick={this.props.onSaveSnapClicked}><i className="fas fa-camera"></i>   &nbsp;&nbsp;Take Snapshot</button>
+            <button id="save-snapshot" className="btn btn-primary" onClick={this.props.onSaveSnapClicked}><i className="fas fa-camera"> --------</i> </button>&nbsp;&nbsp;Take Snapshot
             <Snapshots snapUrls={this.props.snapUrls} />
           </>)}
       </div>
