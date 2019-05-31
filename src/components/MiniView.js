@@ -1,4 +1,5 @@
 import React from 'react';
+import { relative } from 'path';
 
 class MiniView extends React.Component {
   // PROPS
@@ -57,6 +58,8 @@ class MiniView extends React.Component {
     console.log('miniview rendered');
     let miniviewStyle = {};
     let miniBoxStyle = {};
+    let blackBoxStyle = {};
+    let contStyle = {}
 
     if (this.state.bgSize !== null) {
       miniviewStyle = {
@@ -94,14 +97,30 @@ class MiniView extends React.Component {
         backgroundImage: 'url(' + this.props.selectedFile + ')',
         backgroundPosition: -(boxLeftPos - ((this.miniRef.current.offsetWidth - this.state.bgSize.width) / 2)) + 'px ' + -(boxTopPos - ((this.miniRef.current.offsetHeight - this.state.bgSize.height) / 2)) + 'px',
         backgroundSize: Math.floor(this.state.bgSize.width) + 'px ' + Math.floor(this.state.bgSize.height) + 'px',
+        zIndex: 2,
+      }
+      blackBoxStyle = {
+        width: Math.floor(this.state.bgSize.width) + 'px',
+        height: Math.floor(this.state.bgSize.height) + 'px',
+        background: '#000000',
+        left: Math.floor(this.state.bgPos.x),
+        top: Math.floor(this.state.bgPos.y),
+        position: 'absolute',
+        zIndex: 1,
+        opacity: 0.5
+      }
 
+      contStyle = {
+        position: 'relative'
       }
 
     }
-    return (
+    return (<div id="cont" style={contStyle}>
       <div ref={this.miniRef} id="mini-view-container" style={miniviewStyle}>
         <div id="mini-box" style={miniBoxStyle}></div>
       </div >
+      <div style={blackBoxStyle}></div>
+    </div>
     )
   }
 
