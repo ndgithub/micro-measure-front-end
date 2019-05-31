@@ -25,19 +25,17 @@ class MiniView extends React.Component {
     this.setState({
       bgSize: bgSize,
       bgPos: initPos,
+    });
+  }
 
-    })
-
+  componentDidUpdate() {
 
   }
 
   getBgSize = () => {
     var ratioY = this.props.origDims.height / this.miniRef.current.offsetHeight;
-    console.log('ratioY', ratioY);
     var initSizeY = this.props.origDims.height / ratioY;
-    console.log('initSizeY', initSizeY);
     var initSizeX = this.props.origDims.width / ratioY;
-    console.log('initSizeX', initSizeX);
 
     var newRatioX = initSizeX / this.miniRef.current.offsetWidth;
     if (newRatioX >= 1) {
@@ -54,11 +52,9 @@ class MiniView extends React.Component {
     return { x: posX, y: posY };
   }
 
-  componentDidUpdate() {
-
-  }
 
   render() {
+    console.log('miniview rendered');
     let miniviewStyle = {};
     let miniBoxStyle = {};
 
@@ -75,30 +71,30 @@ class MiniView extends React.Component {
       let boxHeight = ((this.props.containerRef.current.offsetHeight / this.props.size.height) * this.state.bgSize.height);
       console.log('boxLeftPos', boxLeftPos);
 
+      // subtracting 2 because I use ouline, bot border
       if (boxLeftPos < this.state.bgPos.x) {
-        boxLeftPos = this.state.bgPos.x;
+        boxLeftPos = this.state.bgPos.x + 2;
       }
       if (boxTopPos < this.state.bgPos.y) {
-        boxTopPos = this.state.bgPos.y
+        boxTopPos = this.state.bgPos.y + 2;
       }
 
       if (boxLeftPos + boxWidth > this.state.bgPos.x + this.state.bgSize.width) {
-        boxWidth = this.miniRef.current.offsetWidth - boxLeftPos - (this.state.bgPos.x)
+        boxWidth = this.miniRef.current.offsetWidth - boxLeftPos - (this.state.bgPos.x) - 4
       }
 
       if (boxTopPos + boxHeight > this.state.bgPos.y + this.state.bgSize.height) {
-        boxHeight = this.miniRef.current.offsetHeight - boxTopPos - (this.state.bgPos.y)
+        boxHeight = this.miniRef.current.offsetHeight - boxTopPos - (this.state.bgPos.y) - 4
       }
-
-
-
-
-
       miniBoxStyle = {
         top: boxTopPos,
         left: boxLeftPos,
         width: boxWidth,
         height: boxHeight,
+        backgroundImage: 'url(' + this.props.selectedFile + ')',
+        backgroundPosition: -(boxLeftPos - ((this.miniRef.current.offsetWidth - this.state.bgSize.width) / 2)) + 'px ' + -(boxTopPos - ((this.miniRef.current.offsetHeight - this.state.bgSize.height) / 2)) + 'px',
+        backgroundSize: Math.floor(this.state.bgSize.width) + 'px ' + Math.floor(this.state.bgSize.height) + 'px',
+
       }
 
     }

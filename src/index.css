@@ -31,12 +31,12 @@ body {
 #mini-view-container {
   width: 100%;
   height: 200px;
-  border: 1px solid #ff0000;
   background-repeat: no-repeat;
+  border: 1px solid #ff0000
 }
 
 #mini-box {
-  border: 2px solid #ffff00;
+  outline: 2px solid #ff0000;
   position: relative;
 }
 
@@ -203,7 +203,7 @@ input[type="text"]::-webkit-input-placeholder {
 
 #save-snapshot {
   margin-bottom: 16px;
-  width: 100px;
+  width: 100%;
 }
 
 @media screen and (max-height: 450px) {
