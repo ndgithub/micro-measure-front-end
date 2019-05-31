@@ -43,9 +43,9 @@ class Sidebar extends React.Component {
 
           />}
         <div id="image-options">
-
-          <input type="file" id="file-upload" onChange={(event) => this.props.handleFileUpload(event)} />
-
+          {this.props.imageLoaded ||
+            <input type="file" id="file-upload" onChange={(event) => this.props.handleFileUpload(event)} />
+          }
           {this.props.imageLoaded &&
             <ScalebarOptions
               numPtsClicked={this.props.numPtsClicked}
@@ -64,7 +64,7 @@ class Sidebar extends React.Component {
         </div>
         {this.props.imageLoaded &&
           (<>
-            <button id="save-snapshot" className="btn btn-primary" onClick={this.props.onSaveSnapClicked}><i className="fas fa-camera"> --------</i> </button>&nbsp;&nbsp;Take Snapshot
+            <button id="save-snapshot" className="btn btn-primary" onClick={this.props.onSaveSnapClicked}><i className="fas fa-camera"></i> &nbsp;&nbsp; Take Snapshot</button>
             <Snapshots snapUrls={this.props.snapUrls} />
           </>)}
       </div>
