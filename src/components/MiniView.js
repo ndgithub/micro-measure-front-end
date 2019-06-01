@@ -107,7 +107,7 @@ class MiniView extends React.Component {
         top: Math.floor(this.state.bgPos.y),
         position: 'absolute',
         zIndex: 1,
-        opacity: 0.5
+        opacity: 0.6
       }
 
       contStyle = {

@@ -65,7 +65,7 @@ class Snapshot extends React.Component {
           <input ref={this.inputRef} className='title-input-field' type="text" id="blah" value={this.state.inputValue}
             style={myStyle} onKeyDown={this.onKeyDown} onChange={(e) => this.setState({ inputValue: e.target.value })} />
           {/* <a href={this.blobUrl} download={this.state.inputValue}>Downloasd</a> */}
-          <div onClick={this.clickDownload} >Download</div>
+          <div className="download-link" onClick={this.clickDownload} >Download</div>
         </div>
       </div>
     )

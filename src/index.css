@@ -35,7 +35,7 @@ body {
 }
 
 #mini-box {
-  outline: 2px solid #ff0000;
+  outline: 2px solid #ffffff;
   position: relative;
 }
 
@@ -43,7 +43,7 @@ body {
   background: url('./images/micro-measure-logo1.png');
   background-size: contain;
   width: 100%;
-  height: 80px;
+  height: 90px;
   background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 16px;
@@ -115,15 +115,13 @@ h2#section-title {
 }
 
 .snapshot-input-fields {
-  padding-top: 4px;
+  padding-top: 0px;
 }
 
 .snapshot-img-container {
-  background: #cccccc;
   height: 80px;
   width: 118px;
-  margin-right: 8px;
-  border: 2px solid #000000;
+  margin-right: 4px;
 }
 
 .title-input-field {
@@ -132,9 +130,18 @@ h2#section-title {
 }
 
 img.snapshot {
-  object-fit: contain;
+  object-fit: cover;
   height: 76px;
   width: 114px;
+}
+
+.download-link {
+  color: #666666;
+}
+
+.download-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* div */
