@@ -1,5 +1,5 @@
 import React from 'react';
-import { relative } from 'path';
+import SectionHeader from './SectionHeader';
 
 class MiniView extends React.Component {
   // PROPS
@@ -29,7 +29,15 @@ class MiniView extends React.Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedFile !== this.props.selectedFile) {
+      let bgSize = this.getBgSize();
+      let initPos = this.getInitPos(bgSize);
+      this.setState({
+        bgSize: bgSize,
+        bgPos: initPos,
+      });
+    }
 
   }
 
@@ -115,12 +123,15 @@ class MiniView extends React.Component {
       }
 
     }
-    return (<div id="cont" style={contStyle}>
-      <div ref={this.miniRef} id="mini-view-container" style={miniviewStyle}>
-        <div id="mini-box" style={miniBoxStyle}></div>
-      </div >
-      <div style={blackBoxStyle}></div>
-    </div>
+    return (<>
+      <SectionHeader title="Current Image" />
+      <div id="cont" style={contStyle}>
+        <div ref={this.miniRef} id="mini-view-container" style={miniviewStyle}>
+          <div id="mini-box" style={miniBoxStyle}></div>
+        </div >
+        <div style={blackBoxStyle}></div>
+      </div>
+    </>
     )
   }
 

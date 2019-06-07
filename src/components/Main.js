@@ -32,7 +32,30 @@ class Main extends React.Component {
 
   }
 
+  useDemoUpload = () => {
+    var url = 'https://i.imgur.com/ssPGfDJ.jpg'
+    var img = new Image();
+    img.onload = () => {
+      this.origDims = { width: img.width, height: img.height };
+      var initialSize = this.getInitSize();
+      var initialPos = this.getInitPos(initialSize);
 
+      this.setState({
+        selectedFile: url,
+        size: initialSize,
+        pos: initialPos,
+        origDims: { width: img.width, height: img.height },
+        imageLoaded: true,
+        // isScaleSetInProg: false,
+        isScalebarSet: false,
+        isScalebarChecked: false,
+        inputLengthValue: '',
+        inputUnitsValue: '',
+        scalePts: []
+      });
+    }
+    img.src = url;
+  }
   // Called from Sidebar when user uploads file
   handleFileUpload = (event) => {
     if (event.target.files.length === 0) return;
@@ -144,10 +167,9 @@ class Main extends React.Component {
     }
   }
 
-  onCheckUseScalebar = (e) => {
-    console.log(e.target.checked);
+  onCheckUseScalebar = (checked) => {
     this.setState({
-      isScalebarChecked: e.target.checked
+      isScalebarChecked: checked
     });
 
     // if checked and scalebar is already set, use scalebar - this is new.
@@ -248,7 +270,7 @@ class Main extends React.Component {
 
 
   onSaveSnapClicked = () => {
-    html2canvas(this.state.containerRef.current, { logging: false }).then(canvas => {
+    html2canvas(this.state.containerRef.current, { logging: false, useCORS: true }).then(canvas => {
       let canvDataUrl = canvas.toDataURL();
       this.setState(prevState => ({
         snapUrls: [...prevState.snapUrls, canvDataUrl]
@@ -290,6 +312,7 @@ class Main extends React.Component {
         size={this.state.size}
         pos={this.state.pos}
         origDims={this.state.origDims}
+        useDemoUpload={this.useDemoUpload}
 
       />
       <Micrograph

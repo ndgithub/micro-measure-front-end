@@ -1,6 +1,6 @@
 body {
   overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
 /* Raleway, 'Roboto Slab', */
@@ -23,9 +23,17 @@ body {
   width: 300px;
   background-color: white;
   height: 100vh;
-  padding: 10px;
   background: #fefeff;
   border-right: 2px solid #dddddd;
+}
+
+#choose-file {
+  width: 100%;
+  margin-top: 8px;
+}
+
+#file-upload {
+  display: none;
 }
 
 #mini-view-container {
@@ -53,6 +61,24 @@ h2#section-title {
   border-bottom: 1px solid #333334;
   font-size: 20px;
   padding-bottom: 4px;
+}
+
+.switch-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.section-header {
+  border-top: 1px solid #cccccc;
+  margin: 8px 0px 8px 0px;
+  padding: 4px 0px 4px 4px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: #666666;
+  align-items: center;
 }
 
 #micro-container {
@@ -103,7 +129,8 @@ h2#section-title {
   justify-content: flex-start;
   flex-wrap: wrap;
   align-content: flex-start;
-  font-family: Arial, Helvetica, sans-serif
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
 }
 
 .snapshot-container {
@@ -200,14 +227,12 @@ input[type="text"]::-webkit-input-placeholder {
 
 #input-fields {
   width: 100%;
-  padding-left: 23px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   height: 150px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
-  margin-left: 35px;
 }
 
 #save-snapshot {

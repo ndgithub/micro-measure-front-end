@@ -1,7 +1,8 @@
 import React from "react";
 import Snapshots from './Snapshots';
 import ScalebarOptions from './ScalebarOptions';
-import MiniView from './MiniView'
+import MiniView from './MiniView';
+import FileInput from './FileInput';
 
 
 class Sidebar extends React.Component {
@@ -31,7 +32,10 @@ class Sidebar extends React.Component {
   render() {
     return (
       <div id="sidebar">
-        <div id="logo-container"></div>
+        {/* <div id="logo-container"></div> */}
+        {this.props.imageLoaded ||
+          <FileInput handleFileUpload={this.props.handleFileUpload} useDemoUpload={this.props.useDemoUpload} />
+        }
 
         {this.props.imageLoaded &&
           <MiniView
@@ -42,30 +46,29 @@ class Sidebar extends React.Component {
             origDims={this.props.origDims}
 
           />}
-        <div id="image-options">
-          {this.props.imageLoaded ||
-            <input type="file" id="file-upload" onChange={(event) => this.props.handleFileUpload(event)} />
-          }
-          {this.props.imageLoaded &&
-            <ScalebarOptions
-              numPtsClicked={this.props.numPtsClicked}
-              onCheckUseScalebar={this.props.onCheckUseScalebar}
-              isScalebarChecked={this.props.isScalebarChecked}
-              isScalebarSet={this.props.isScalebarSet}
-              scalePtsLength={this.props.scalePtsLength}
-              onInputLengthChange={this.props.onInputLengthChange}
-              onInputUnitsChange={this.props.onInputUnitsChange}
-              onClickDoneSetting={this.props.onClickDoneSetting}
-              inputLengthValue={this.props.inputLengthValue}
-              inputUnitsValue={this.props.inputUnitsValue}
-              onClickResetScalebar={this.props.onClickResetScalebar}
-            />
-          }
-        </div>
+
+
+
+
+        {this.props.imageLoaded &&
+          <ScalebarOptions
+            numPtsClicked={this.props.numPtsClicked}
+            onCheckUseScalebar={this.props.onCheckUseScalebar}
+            isScalebarChecked={this.props.isScalebarChecked}
+            isScalebarSet={this.props.isScalebarSet}
+            scalePtsLength={this.props.scalePtsLength}
+            onInputLengthChange={this.props.onInputLengthChange}
+            onInputUnitsChange={this.props.onInputUnitsChange}
+            onClickDoneSetting={this.props.onClickDoneSetting}
+            inputLengthValue={this.props.inputLengthValue}
+            inputUnitsValue={this.props.inputUnitsValue}
+            onClickResetScalebar={this.props.onClickResetScalebar}
+          />
+        }
+
         {this.props.imageLoaded &&
           (<>
-            <button id="save-snapshot" className="btn btn-primary" onClick={this.props.onSaveSnapClicked}><i className="fas fa-camera"></i> &nbsp;&nbsp; Take Snapshot</button>
-            <Snapshots snapUrls={this.props.snapUrls} />
+            <Snapshots onSaveSnapClicked={this.props.onSaveSnapClicked} snapUrls={this.props.snapUrls} />
           </>)}
       </div>
     );
