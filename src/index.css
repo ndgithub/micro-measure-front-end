@@ -16,6 +16,13 @@ body {
   background-size: 40px;
 }
 
+.image-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding-top: 8px;
+}
+
 #sidebar {
   display: flex;
   flex-direction: column;
@@ -25,6 +32,7 @@ body {
   height: 100vh;
   background: #fefeff;
   border-right: 2px solid #dddddd;
+  padding: 8px;
 }
 
 #choose-file {
@@ -139,6 +147,8 @@ h2#section-title {
   flex-direction: row;
   justify-content: flex-start;
   margin-bottom: 8px;
+  padding-top: 4px;
+  padding-right: 4px;
 }
 
 .snapshot-input-fields {
@@ -162,19 +172,16 @@ img.snapshot {
   width: 114px;
 }
 
-.download-link {
-  color: #666666;
-}
-
-.download-link:hover {
-  text-decoration: underline;
-  cursor: pointer;
+.ant-btn.download-link.ant-btn-link {
+  padding: 0px 0px 0px 10px;
+  margin: 0px;
+  height: 0px;
 }
 
 /* div */
 
-#scalebar-options-container {
-  margin-bottom: 16px;
+.scale-set-form {
+  padding: 20px 0px 0px 70px;
 }
 
 #useScalebar-checkbox-container {

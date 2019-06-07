@@ -124,7 +124,7 @@ class MiniView extends React.Component {
 
     }
     return (<>
-      <SectionHeader title="Current Image" />
+
       <div id="cont" style={contStyle}>
         <div ref={this.miniRef} id="mini-view-container" style={miniviewStyle}>
           <div id="mini-box" style={miniBoxStyle}></div>

@@ -46,7 +46,10 @@ function Scalebar(props) {
   var scalebarWidthPx = (setLength_Units / containerSizeUnits) * props.containerSizePx;
   var scalebarStyle = {
     width: scalebarWidthPx + 'px'
+
   }
+  console.log('******', setLength_Units);
+  console.log('scalebarWidthPx', scalebarWidthPx);
   return (
     <div id="scale-bar">
       <div id="scale-bar-text">{setLength_Units + ' ' + props.units}</div>

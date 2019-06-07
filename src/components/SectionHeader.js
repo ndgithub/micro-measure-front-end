@@ -5,8 +5,8 @@ const SectionHeader = (props) => {
 
 
 
-  return (<div class="section-header">
-    <div class="section-header-title">{props.title}</div>
+  return (<div className="section-header">
+    <div className="section-header-title">{props.title}</div>
     {props.children}
   </div>
 
