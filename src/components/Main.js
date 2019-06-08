@@ -25,6 +25,10 @@ class Main extends React.Component {
       inputUnitsValue: '',
       cursorStyle: 'auto',
 
+      scalebarTextColor: '#ff0000',
+      scalebarBgColor: '#00ff00'
+
+
     };
 
     this.origDims = null;
@@ -64,7 +68,6 @@ class Main extends React.Component {
   handleFileUpload = (event) => {
     if (event.target.files.length === 0) return;
     var url = URL.createObjectURL(event.target.files[0]);
-    console.log(url);
     var img = new Image();
     img.onload = () => {
       this.origDims = { width: img.width, height: img.height };
@@ -131,6 +134,8 @@ class Main extends React.Component {
     this.setState({ containerRef: ref })
   }
 
+
+
   onMouseScroll = (e) => {
     let newSize = {};
     newSize.width = this.state.size.width * (1 - (0.001 * e.deltaY));
@@ -152,7 +157,6 @@ class Main extends React.Component {
       y: e.pageY
     }
 
-    console.log('lastMouseDownPos', this.lastMouseDownPos);
   }
 
   mouseUp = (e) => {
@@ -245,7 +249,7 @@ class Main extends React.Component {
 
   wasDragged = () => {
     let dragged = (this.lastMouseDownPos.x !== this.lastMouseUpPos.x && this.lastMouseDownPos.y !== this.lastMouseUpPos.y);
-    console.log('up and down on same posiot', dragged);
+
     return dragged;
   }
   convertToImgPos = (pagePos) => {
@@ -272,7 +276,18 @@ class Main extends React.Component {
       inputUnitsValue: '',
       scalePts: []
     })
+  }
 
+  onClickScaleTextColor = (color) => {
+    this.setState({
+      scalebarTextColor: color,
+    })
+  }
+
+  onClickScaleBgColor = (color) => {
+    this.setState({
+      scalebarBgColor: color,
+    })
   }
 
   render() {
@@ -301,6 +316,11 @@ class Main extends React.Component {
         useDemoUpload={this.useDemoUpload}
         isScaleSetInProg={this.state.isScaleSetInProg}
         onClickCancelSetting={this.onClickCancelSetting}
+        onClickScaleTextColor={this.onClickScaleTextColor}
+        onClickScaleBgColor={this.onClickScaleBgColor}
+
+
+
 
 
       />
@@ -320,6 +340,8 @@ class Main extends React.Component {
         isScalebarChecked={this.state.isScalebarChecked}
         units={this.state.units}
         cursorStyle={this.state.cursorStyle}
+        scalebarTextColor={this.state.scalebarTextColor}
+        scalebarBgColor={this.state.scalebarBgColor}
       />
     </>)
   }

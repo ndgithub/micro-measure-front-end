@@ -1,8 +1,6 @@
 import React from "react";
 
 function Scalebar(props) {
-  console.log('renderScalebar')
-
   let imgContainerRatio = props.size.width / props.containerSizePx;
   let containerSizeUnits = props.imgSizeUnits / imgContainerRatio
   let targetLength = containerSizeUnits * 0.3;
@@ -44,16 +42,23 @@ function Scalebar(props) {
     setLength_Units = parseInt(setLength_Units);
   }
   var scalebarWidthPx = (setLength_Units / containerSizeUnits) * props.containerSizePx;
-  var scalebarStyle = {
-    width: scalebarWidthPx + 'px'
 
+  var scalebarInnerBarStyle = {
+    width: scalebarWidthPx + 'px',
+    background: props.scalebarTextColor
   }
-  console.log('******', setLength_Units);
-  console.log('scalebarWidthPx', scalebarWidthPx);
+  var scalebarTextStyle = {
+    color: props.scalebarTextColor
+  }
+
+  var scalebarBgStyle = {
+    background: props.scalebarBgColor
+  }
+
   return (
-    <div id="scale-bar">
-      <div id="scale-bar-text">{setLength_Units + ' ' + props.units}</div>
-      <div id="scale-bar-inner-bar" style={scalebarStyle}></div>
+    <div id="scale-bar" style={scalebarBgStyle}>
+      <div id="scale-bar-text" style={scalebarTextStyle}>{setLength_Units + ' ' + props.units}</div>
+      <div id="scale-bar-inner-bar" style={scalebarInnerBarStyle}></div>
     </div>
   );
 }

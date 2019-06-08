@@ -62,7 +62,6 @@ class MiniView extends React.Component {
 
 
   render() {
-    console.log('miniview rendered');
     let miniviewStyle = {};
     let miniBoxStyle = {};
     let blackBoxStyle = {};
@@ -79,7 +78,6 @@ class MiniView extends React.Component {
       let boxTopPos = ((-1 * this.props.pos.y / this.props.size.height) * this.state.bgSize.height) + this.state.bgPos.y
       let boxWidth = ((this.props.containerRef.current.offsetWidth / this.props.size.width) * this.state.bgSize.width);
       let boxHeight = ((this.props.containerRef.current.offsetHeight / this.props.size.height) * this.state.bgSize.height);
-      console.log('boxLeftPos', boxLeftPos);
 
       // subtracting 2 because I use ouline, bot border
       if (boxLeftPos < this.state.bgPos.x) {

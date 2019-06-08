@@ -20,7 +20,6 @@ class Micrograph extends React.Component {
   }
 
   render() {
-    console.log('Micrograph.render() called');
     var myStyle = {};
     if (this.props.imageLoaded === true) {
       myStyle = {
@@ -38,10 +37,14 @@ class Micrograph extends React.Component {
           onMouseMove={(e) => this.props.mouseMove(e)}
           onMouseLeave={(e) => this.props.mouseLeave(e)} >
 
-          {this.props.isImageScaleSet && this.props.isScalebarChecked && <Scalebar size={this.props.size}
-            imgSizeUnits={this.props.imgSizeUnits}
-            containerSizePx={this.myRef.current.offsetWidth}
-            units={this.props.units} />}
+          {this.props.isImageScaleSet && this.props.isScalebarChecked &&
+            <Scalebar size={this.props.size}
+              imgSizeUnits={this.props.imgSizeUnits}
+              containerSizePx={this.myRef.current.offsetWidth}
+              units={this.props.units}
+              scalebarTextColor={this.props.scalebarTextColor}
+              scalebarBgColor={this.props.scalebarBgColor}
+            />}
         </div >
 
       );

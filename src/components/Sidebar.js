@@ -31,7 +31,6 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    console.log('*****************', this.props.isImageScaleSet);
     return (
       <div id="sidebar">
         {/* <div id="logo-container"></div> */}
@@ -66,7 +65,12 @@ class Sidebar extends React.Component {
               isScalebarChecked={this.props.isScalebarChecked}
               isImageScaleSet={this.props.isImageScaleSet}
               inputUnitsValue={this.props.inputUnitsValue}
-              onClickResetScalebar={this.props.onClickResetScalebar} />
+              onClickResetScalebar={this.props.onClickResetScalebar}
+              showScalebarColorOptions={this.props.showScalebarColorOptions}
+              onClickScaleTextColor={this.props.onClickScaleTextColor}
+              onClickScaleBgColor={this.props.onClickScaleBgColor}
+
+            />
             }
             {!this.props.isScaleSetInProg && <Snapshots onSaveSnapClicked={this.props.onSaveSnapClicked} snapUrls={this.props.snapUrls} />}
 

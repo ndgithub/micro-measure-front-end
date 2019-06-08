@@ -20,7 +20,7 @@ class FileInput extends React.Component {
   render() {
     return (<>
       <Button className="choose-file" onClick={() => this.inputRef.current.click()}><Icon className="upload-icon" type="upload" /> &nbsp;&nbsp; Choose Image from Computer</Button>
-      <Divider>Or</Divider>
+      <Divider>or</Divider>
       <Button className="choose-file" onClick={this.props.useDemoUpload}><Icon className="upload-icon" type="upload" /> &nbsp;&nbsp;Use The Demo Image</Button>
 
 
