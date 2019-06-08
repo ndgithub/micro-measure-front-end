@@ -1,5 +1,5 @@
 import React from 'react';
-import { Timeline, Icon, Button, Input } from 'antd';
+import { Timeline, Icon, Button, Input, Divider } from 'antd';
 
 
 
@@ -73,21 +73,25 @@ class ImageScaleSetForm extends React.Component {
 
       <div className="scale-set-form">
 
+        <div className="scale-set-form-timeline">
+          <Timeline>
+            <Timeline.Item dot={getDot(1)}><span style={(this.props.scalePtsLength === 0) ? boldStyle : lightStyle} >
+              Click 1st End Point</span></Timeline.Item>
+            <Timeline.Item dot={getDot(2)}><span style={(this.props.scalePtsLength === 1) ? boldStyle : lightStyle} >
+              Click 2nd End Point</span></Timeline.Item>
 
-        <Timeline>
-          <Timeline.Item dot={getDot(1)}><span style={(this.props.scalePtsLength === 0) ? boldStyle : lightStyle} >
-            Click 1st End Point</span></Timeline.Item>
-          <Timeline.Item dot={getDot(2)}><span style={(this.props.scalePtsLength === 1) ? boldStyle : lightStyle} >
-            Click 2nd End Point</span></Timeline.Item>
-
-          <Timeline.Item dot={getDot(3)}>
-            <Input.Group compact>
-              <Input ref={this.inputLengthRef} style={{ width: '40%' }} disabled={this.props.scalePtsLength < 2} value={this.props.inputLengthValue} onChange={(e) => this.props.onInputLengthChange(e)} placeholder="Length" />
-              <Input id="input-enter-units" style={{ width: '20%' }} disabled={this.props.scalePtsLength < 2 || this.props.inputLengthValue.length === 0} value={this.props.inputUnitsValue} placeholder="Units" onChange={(e) => this.props.onInputUnitsChange(e)} />
-            </Input.Group></Timeline.Item>
-          <Timeline.Item><Button onClick={this.props.onClickDoneSetting} disabled={this.props.scalePtsLength < 2 || this.props.inputLengthValue.length === 0} >Set</Button></Timeline.Item>
-        </Timeline>
-
+            <Timeline.Item dot={getDot(3)}>
+              <Input.Group compact>
+                <Input ref={this.inputLengthRef} style={{ width: '40%' }} disabled={this.props.scalePtsLength < 2} value={this.props.inputLengthValue} onChange={(e) => this.props.onInputLengthChange(e)} placeholder="Length" />
+                <Input id="input-enter-units" style={{ width: '40%' }} disabled={this.props.scalePtsLength < 2 || this.props.inputLengthValue.length === 0} value={this.props.inputUnitsValue} placeholder="Units" onChange={(e) => this.props.onInputUnitsChange(e)} />
+              </Input.Group></Timeline.Item>
+          </Timeline>
+        </div>
+        <div className="scale-set-form-buttons">
+          <Button type="primary" style={{ width: '50%' }} onClick={this.props.onClickDoneSetting} disabled={this.props.scalePtsLength < 2 || this.props.inputLengthValue.length === 0} >Done</Button>
+          <Button type="danger" style={{ width: '40%' }} onClick={this.props.onClickCancelSetting}>Cancel</Button>
+        </div>
+        <Divider />
 
 
       </div>)

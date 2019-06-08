@@ -58,6 +58,7 @@ class Sidebar extends React.Component {
               isImageScaleSet={this.props.isImageScaleSet}
               onClickSetImageScale={this.props.onClickSetImageScale}
               isScaleSetInProg={this.props.isScaleSetInProg}
+              onClickCancelSetting={this.props.onClickCancelSetting}
 
             />
             {this.props.isImageScaleSet && <ScalebarOptions

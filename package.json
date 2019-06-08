@@ -8,6 +8,7 @@
     "file-saver": "^2.0.2",
     "html2canvas": "^1.0.0-rc.1",
     "react": "^16.8.6",
+    "react-collapse": "^4.0.3",
     "react-dom": "^16.8.6",
     "react-multi-ref": "^1.0.0",
     "react-scripts": "3.0.1"

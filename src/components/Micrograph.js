@@ -28,10 +28,11 @@ class Micrograph extends React.Component {
         backgroundImage: 'url(' + this.props.selectedFile + ')',
         backgroundSize: Math.floor(this.props.size.width) + 'px ' + Math.floor(this.props.size.height) + 'px',
         backgroundPosition: Math.floor(this.props.pos.x) + 'px ' + Math.floor(this.props.pos.y) + 'px',
+        cursor: this.props.cursorStyle
       }
       return (
         <div ref={this.myRef} style={myStyle} id="micro-container"
-          onWheel={(e) => this.props.onScroll(e)}
+          onWheel={(e) => this.props.onMouseScroll(e)}
           onMouseDown={(e) => this.props.mouseDown(e)}
           onMouseUp={(e) => this.props.mouseUp(e)}
           onMouseMove={(e) => this.props.mouseMove(e)}

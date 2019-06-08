@@ -1,6 +1,6 @@
 import React from 'react';
 import { saveAs } from 'file-saver';
-import { Button, Input } from 'antd';
+import { Input } from 'antd';
 
 class Snapshot extends React.Component {
   constructor(props) {
@@ -66,9 +66,10 @@ class Snapshot extends React.Component {
           <Input ref={this.inputRef} className='title-input-field' type="text" id="blah" value={this.state.inputValue}
             style={myStyle} onKeyDown={this.onKeyDown} onChange={(e) => this.setState({ inputValue: e.target.value })} />
           {/* <a href={this.blobUrl} download={this.state.inputValue}>Downloasd</a> */}
-          <Button type="link" className="download-link" onClick={this.clickDownload} >Download</Button>
+          <div type="link" className="download-link" onClick={this.clickDownload} >Download</div>
+
         </div>
-      </div>
+      </div >
     )
   }
 

@@ -1,6 +1,7 @@
 body {
   overflow: hidden;
-  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant: normal;
 }
 
 /* Raleway, 'Roboto Slab', */
@@ -31,7 +32,7 @@ body {
   background-color: white;
   height: 100vh;
   background: #fefeff;
-  border-right: 2px solid #dddddd;
+  border-right: 2px solid #e8e8e8;
   padding: 8px;
 }
 
@@ -77,15 +78,16 @@ h2#section-title {
   align-items: center;
 }
 
+.ant-divider.ant-divider-horizontal {
+  margin: 8px 0px 8px 0px;
+}
+
 .section-header {
-  border-top: 1px solid #cccccc;
   margin: 8px 0px 8px 0px;
   padding: 4px 0px 4px 4px;
-  font-size: 12px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  color: #666666;
   align-items: center;
 }
 
@@ -100,6 +102,7 @@ h2#section-title {
 }
 
 #scale-bar {
+  font-variant: normal;
   height: 55px;
   margin-right: 20px;
   margin-bottom: 20px;
@@ -137,7 +140,6 @@ h2#section-title {
   justify-content: flex-start;
   flex-wrap: wrap;
   align-content: flex-start;
-  font-family: Arial, Helvetica, sans-serif;
   width: 100%;
 }
 
@@ -159,29 +161,62 @@ h2#section-title {
   height: 80px;
   width: 118px;
   margin-right: 4px;
+  border: 1px solid #e8e8e8;
+  padding: 2px;
 }
 
-.title-input-field {
+.ant-input.title-input-field.title-input-field {
   font-weight: bold;
   width: 120px;
+  padding: 2px;
+  height: 24px;
+  margin-top: -22px;
+}
+
+.download-link {
+  margin-left: 2px;
+  margin-top: 0px;
+  color: #0645AD;
+}
+
+.download-link:hover {
+  color: #0645AD;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 img.snapshot {
-  object-fit: cover;
-  height: 76px;
+  object-fit: contain;
+  height: 74px;
   width: 114px;
-}
-
-.ant-btn.download-link.ant-btn-link {
-  padding: 0px 0px 0px 10px;
-  margin: 0px;
-  height: 0px;
 }
 
 /* div */
 
-.scale-set-form {
-  padding: 20px 0px 0px 70px;
+.scale-set-form-timeline {
+  padding: 20px 0px 0px 10px;
+}
+
+.scale-set-form {}
+
+.scale-set-form-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 235px;
+  padding-left: 22px;
+}
+
+.ant-timeline-item.ant-timeline-item-last {
+  padding-bottom: 0px;
+}
+
+.anticon.anticon-column-width.scale-icon {
+  vertical-align: 1px;
+}
+
+.anticon.anticon-upload.upload-icon {
+  vertical-align: 1px;
 }
 
 #useScalebar-checkbox-container {
@@ -228,6 +263,12 @@ input[type="text"]::-webkit-input-placeholder {
   flex-direction: row;
 }
 
+.scalebar-options {}
+
+.scalebar-title {
+  margin-right: 8px;
+}
+
 #use-scalebar-input {
   margin: 0px 8px 4px 0px;
 }
@@ -238,7 +279,6 @@ input[type="text"]::-webkit-input-placeholder {
   flex-direction: column;
   justify-content: space-evenly;
   height: 150px;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
 

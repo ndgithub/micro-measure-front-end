@@ -23,6 +23,7 @@ class Main extends React.Component {
       scalePts: [],
       inputLengthValue: '',
       inputUnitsValue: '',
+      cursorStyle: 'auto',
 
     };
 
@@ -130,10 +131,8 @@ class Main extends React.Component {
     this.setState({ containerRef: ref })
   }
 
-  onScroll = (e) => {
-    console.log(e.deltaY);
+  onMouseScroll = (e) => {
     let newSize = {};
-
     newSize.width = this.state.size.width * (1 - (0.001 * e.deltaY));
     newSize.height = this.state.size.height * (1 - (0.001 * e.deltaY));
 
@@ -141,7 +140,7 @@ class Main extends React.Component {
 
     this.setState({
       size: newSize,
-      pos: newPos
+      pos: newPos,
     })
 
   }
@@ -152,6 +151,7 @@ class Main extends React.Component {
       x: e.pageX,
       y: e.pageY
     }
+
     console.log('lastMouseDownPos', this.lastMouseDownPos);
   }
 
@@ -168,6 +168,9 @@ class Main extends React.Component {
         scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
       }));
     }
+    this.setState({
+      cursorStyle: 'auto'
+    })
   }
 
   onCheckUseScalebar = (checked) => {
@@ -180,21 +183,12 @@ class Main extends React.Component {
 
   }
 
-  // onScaleSet = () => {
-  //   let inputNum = prompt('What is the length?');
-  //   let inputUnit = prompt('What are the units?');
-  //   this.isScaleSetInProg = false;
+  onClickCancelSetting = () => {
+    this.setState({
+      isScaleSetInProg: false,
 
-  //   let imgScalePerc = Math.abs(this.state.scalePts[0].x - this.state.scalePts[1].x);
-
-  //   let imgSizeUnits = inputNum / imgScalePerc;
-  //   console.log('imgSizeUnits', imgSizeUnits);
-  //   this.setState({
-  //     imgSizeUnits: imgSizeUnits,
-  //     isImageScaleSet: true,
-  //     units: inputUnit
-  //   })
-  // }
+    })
+  }
 
   onClickDoneSetting = () => {
 
@@ -211,11 +205,13 @@ class Main extends React.Component {
   }
 
   mouseMove = (e) => {
+    this.setState({ cursorStyle: 'auto' })
     if (this.isMouseDown) {
       let diffX = this.lastMousePos.x - e.pageX;
       let diffY = this.lastMousePos.y - e.pageY;
       this.lastMousePos = { x: e.pageX, y: e.pageY }
       this.setState({
+        cursorStyle: 'move',
         pos: {
           x: this.state.pos.x - diffX,
           y: this.state.pos.y - diffY
@@ -258,17 +254,6 @@ class Main extends React.Component {
     var imgPtY = (pagePos.y - this.state.containerRef.current.offsetTop - this.state.pos.y) / this.state.size.height;
     return { x: imgPtX, y: imgPtY };
   }
-
-
-
-  /////////////  Prop functions called from Sidebar component ///////////////
-  // onClickScalebarBtn = () => {
-  //   this.isScaleSetInProg = true;
-
-  // }
-
-
-
 
   onSaveSnapClicked = () => {
     html2canvas(this.state.containerRef.current, { logging: false, useCORS: true }).then(canvas => {
@@ -315,6 +300,8 @@ class Main extends React.Component {
         origDims={this.state.origDims}
         useDemoUpload={this.useDemoUpload}
         isScaleSetInProg={this.state.isScaleSetInProg}
+        onClickCancelSetting={this.onClickCancelSetting}
+
 
       />
       <Micrograph
@@ -324,7 +311,7 @@ class Main extends React.Component {
         pos={this.state.pos}
         imgSizeUnits={this.state.imgSizeUnits}
         imageLoaded={this.state.imageLoaded}
-        onScroll={this.onScroll}
+        onMouseScroll={this.onMouseScroll}
         mouseDown={this.mouseDown}
         mouseUp={this.mouseUp}
         mouseMove={this.mouseMove}
@@ -332,6 +319,7 @@ class Main extends React.Component {
         isImageScaleSet={this.state.isImageScaleSet}
         isScalebarChecked={this.state.isScalebarChecked}
         units={this.state.units}
+        cursorStyle={this.state.cursorStyle}
       />
     </>)
   }
