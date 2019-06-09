@@ -43,7 +43,7 @@ class ScalebarOptions extends React.Component {
         <Switch checked={this.props.isScalebarChecked} onClick={(checked) => this.props.onCheckUseScalebar(checked)} size='small' />
       </div>
       <Collapse isOpened={this.state.showScalebarOptions}>
-        <div className="">
+        <div className="scalebar-color-options-container">
 
           <div className="scalebar-color-options">
             <div>Foreground</div>

@@ -176,23 +176,28 @@ h2#section-title {
   padding: 2px;
 }
 
-.ant-input.title-input-field {
+.title-input-field {
   font-weight: bold;
   width: 120px;
-  padding: 2px;
   height: 24px;
-  margin-top: -22px;
-  background-color: #fafafa;
+  margin-left: 2px;
+  background-color: #ffffffff;
+  margin-bottom: -6px;
+  border: none;
+  padding: 0px;
 }
 
-.ant-input.title-input-field:focus {
-  background-color: #ffffff;
+.title-input-field:focus {}
+
+.title-input-field:hover {
+  background: #f5f5f5;
 }
 
 .download-link {
   margin-left: 2px;
   margin-top: 0px;
   color: #0645AD;
+  font-size: 12px;
 }
 
 .download-link:hover {
@@ -266,7 +271,6 @@ img.snapshot {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-left: 10px;
   margin-bottom: 4px;
 }
 
@@ -317,7 +321,15 @@ input[type="text"]::-webkit-input-placeholder {
   flex-direction: row;
 }
 
-.scalebar-options {}
+.scalebar-options {
+  font-size: 14px;
+}
+
+.scalebar-color-options-container {
+  margin-left: 4px;
+  padding-left: 8px;
+  border-left: 1px solid #f5f5f5;
+}
 
 .scalebar-options:hover {
   cursor: pointer;

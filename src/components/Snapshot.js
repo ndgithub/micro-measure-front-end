@@ -1,6 +1,6 @@
 import React from 'react';
 import { saveAs } from 'file-saver';
-import { Input } from 'antd';
+import { NONAME } from 'dns';
 
 class Snapshot extends React.Component {
   constructor(props) {
@@ -53,9 +53,7 @@ class Snapshot extends React.Component {
   }
 
   render() {
-    let myStyle = {
-      border: 'none'
-    }
+
 
     return (
       <div className='snapshot-container'>
@@ -63,10 +61,10 @@ class Snapshot extends React.Component {
           <img src={this.props.imgSrc} alt='' className='snapshot'></img>
         </div>
         <div className="snapshot-input-fields">
-          <Input ref={this.inputRef} className='title-input-field' type="text" id="blah" value={this.state.inputValue}
-            style={myStyle} onKeyDown={this.onKeyDown} onChange={(e) => this.setState({ inputValue: e.target.value })} />
+          <input ref={this.inputRef} className='title-input-field' type="text" id="blah" value={this.state.inputValue}
+            style={this.state.inputStyle} onKeyDown={this.onKeyDown} onChange={(e) => this.setState({ inputValue: e.target.value })} />
           {/* <a href={this.blobUrl} download={this.state.inputValue}>Downloasd</a> */}
-          <div type="link" className="download-link" onClick={this.clickDownload} >Download</div>
+          <div className="download-link" onClick={this.clickDownload} >Download</div>
 
         </div>
       </div >
