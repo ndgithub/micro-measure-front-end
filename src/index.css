@@ -51,7 +51,7 @@ body {
 }
 
 #mini-box {
-  outline: 2px solid #ffffff;
+  outline: 1px solid #ffffff;
   position: relative;
 }
 
@@ -63,6 +63,14 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 16px;
+}
+
+.button1 {
+  width: 55%;
+}
+
+.button2 {
+  width: 40%;
 }
 
 h2#section-title {

@@ -72,6 +72,7 @@ class MiniView extends React.Component {
         backgroundImage: 'url(' + this.props.selectedFile + ')',
         backgroundSize: Math.floor(this.state.bgSize.width) + 'px ' + Math.floor(this.state.bgSize.height) + 'px',
         backgroundPosition: Math.floor(this.state.bgPos.x) + 'px ' + Math.floor(this.state.bgPos.y) + 'px',
+
       }
 
       let boxLeftPos = ((-1 * this.props.pos.x / this.props.size.width) * this.state.bgSize.width) + this.state.bgPos.x
@@ -79,24 +80,46 @@ class MiniView extends React.Component {
       let boxWidth = ((this.props.containerRef.current.offsetWidth / this.props.size.width) * this.state.bgSize.width);
       let boxHeight = ((this.props.containerRef.current.offsetHeight / this.props.size.height) * this.state.bgSize.height);
 
-      // subtracting 2 because I use outine, not border
-      if (boxLeftPos < this.state.bgPos.x) {
-        boxLeftPos = this.state.bgPos.x + 1;
-      }
-      if (boxTopPos < this.state.bgPos.y + 2) {
-        boxTopPos = this.state.bgPos.y + 2;
-      }
+      if (this.state.bgSize.width / this.state.bgSize.height > this.miniRef.current.offsetWidth / this.miniRef.current.offsetHeight) {
+        console.log('1');
+        if (boxLeftPos < this.state.bgPos.x + 1) {
+          boxLeftPos = this.state.bgPos.x + 1;
+        }
+        if (boxTopPos < this.state.bgPos.y) {
+          boxTopPos = this.state.bgPos.y
+        }
 
-      if (boxLeftPos + boxWidth > this.state.bgPos.x + this.state.bgSize.width - 3) {
-        console.log('yes');
-        boxWidth = this.miniRef.current.offsetWidth - boxLeftPos - (this.state.bgPos.x) - 3
+        if (boxLeftPos + boxWidth > this.state.bgPos.x + this.state.bgSize.width - 1) {
+          console.log('yes');
+          boxWidth = this.miniRef.current.offsetWidth - boxLeftPos - (this.state.bgPos.x) - 1
+        } else {
+          console.log('no');
+        }
+
+        if (boxTopPos + boxHeight > this.state.bgPos.y + this.state.bgSize.height - 2) {
+          boxHeight = this.miniRef.current.offsetHeight - boxTopPos - (this.state.bgPos.y) - 2;
+        }
       } else {
-        console.log('no');
+        console.log('2');
+        if (boxLeftPos < this.state.bgPos.x) {
+          boxLeftPos = this.state.bgPos.x;
+        }
+        if (boxTopPos < this.state.bgPos.y + 2) {
+          boxTopPos = this.state.bgPos.y + 1
+        }
+
+        if (boxLeftPos + boxWidth > this.state.bgPos.x + this.state.bgSize.width - 2) {
+          console.log('yes');
+          boxWidth = this.miniRef.current.offsetWidth - boxLeftPos - (this.state.bgPos.x) - 2
+        } else {
+          console.log('no');
+        }
+
+        if (boxTopPos + boxHeight > this.state.bgPos.y + this.state.bgSize.height - 1) {
+          boxHeight = this.miniRef.current.offsetHeight - boxTopPos - (this.state.bgPos.y) - 1
+        }
       }
 
-      if (boxTopPos + boxHeight > this.state.bgPos.y + this.state.bgSize.height) {
-        boxHeight = this.miniRef.current.offsetHeight - boxTopPos - (this.state.bgPos.y) - 2
-      }
       miniBoxStyle = {
         top: boxTopPos,
         left: boxLeftPos,
