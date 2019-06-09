@@ -1,6 +1,5 @@
 import React from 'react';
 import { saveAs } from 'file-saver';
-import { NONAME } from 'dns';
 
 class Snapshot extends React.Component {
   constructor(props) {

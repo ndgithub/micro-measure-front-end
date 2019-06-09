@@ -232,11 +232,11 @@ class Main extends React.Component {
       let diffY = this.lastMousePos.y - e.pageY;
       this.lastMousePos = { x: e.pageX, y: e.pageY }
       this.setState({
-
         pos: {
           x: this.state.pos.x - diffX,
           y: this.state.pos.y - diffY
-        }
+        },
+        cursorStyle: 'move'
       })
     } else {
       this.lastMousePos = { x: e.pageX, y: e.pageY }

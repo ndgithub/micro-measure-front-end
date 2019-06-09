@@ -40,7 +40,7 @@ class Micrograph extends React.Component {
         backgroundPosition: Math.floor(this.props.pos.x) + 'px ' + Math.floor(this.props.pos.y) + 'px',
         cursor: this.props.cursorStyle,
       }
-      return (
+      return (<>
         <div ref={this.myRef} style={myStyle} id="micro-container"
           onWheel={(e) => this.props.onMouseScroll(e)}
           onMouseDown={(e) => { this.props.mouseDown(e) }}
@@ -57,8 +57,10 @@ class Micrograph extends React.Component {
               scalebarTextColor={this.props.scalebarTextColor}
               scalebarBgColor={this.props.scalebarBgColor}
             />}
+
         </div >
 
+      </>
       );
     } else {
       myStyle = {};

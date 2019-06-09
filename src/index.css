@@ -6,6 +6,12 @@ body {
 
 /* Raleway, 'Roboto Slab', */
 
+#on-canvas {
+  height: 100%;
+  width: 100%;
+  background: #ffffff99;
+}
+
 #root {
   height: 100vh;
   width: 100vw;
@@ -112,21 +118,20 @@ h2#section-title {
   flex: 1;
   height: 100vh;
   background-repeat: no-repeat;
+  position: relative;
   /* background-color: #e0e0f0; */
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: flex-end;
 }
 
 #scale-bar {
   font-variant: normal;
   height: 55px;
-  margin-right: 20px;
-  margin-bottom: 20px;
   background: white;
   color: black;
   text-align: center;
   padding: 8px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 
 #scale-bar-text {
