@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Button, Divider } from 'antd';
+import { Switch, Divider } from 'antd';
 import { Collapse } from 'react-collapse';
 import ColorPicker from './ColorPicker';
 
@@ -28,7 +28,6 @@ class ScalebarOptions extends React.Component {
 
 
     })
-
   }
 
 
@@ -37,14 +36,14 @@ class ScalebarOptions extends React.Component {
 
     return (<>
 
-      {/* // {this.state.showScalebarOptions ? 'up' : 'down'} */}
+
       <div className="switch-container">
-        <div onClick={this.onClickScalebarOptions} type="link" className="scalebar-options">Scalebar&nbsp;
-        <i className={`fas fa-caret-down ${this.state.showScalebarOptions ? 'scalebar-options-arrow-up' : 'scalebar-options-arrow-down'}`}></i></div>
+        <div onClick={this.onClickScalebarOptions} type="link" className="scalebar-options"><i className={`fas fa-caret-down ${this.state.showScalebarOptions ? 'scalebar-options-arrow-up' : 'scalebar-options-arrow-down'}`}></i>&nbsp;Scalebar
+        </div>
         <Switch checked={this.props.isScalebarChecked} onClick={(checked) => this.props.onCheckUseScalebar(checked)} size='small' />
       </div>
       <Collapse isOpened={this.state.showScalebarOptions}>
-        <div className="scalebar-options">
+        <div className="">
 
           <div className="scalebar-color-options">
             <div>Foreground</div>

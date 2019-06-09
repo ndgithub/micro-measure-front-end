@@ -30,7 +30,7 @@ body {
   justify-content: flex-start;
   width: 300px;
   height: 100vh;
-  background: #fafafa;
+  background: #ffffff;
   border-right: 2px solid #e8e8e8;
   padding: 8px;
 }
@@ -80,11 +80,11 @@ h2#section-title {
 }
 
 .scalebar-options-arrow-up {
-  transform: rotate(0deg)
+  transform: rotate(0deg);
 }
 
 .scalebar-options-arrow-down {
-  transform: rotate(180deg)
+  transform: rotate(270deg);
 }
 
 .ant-divider.ant-divider-horizontal {
@@ -176,12 +176,17 @@ h2#section-title {
   padding: 2px;
 }
 
-.ant-input.title-input-field.title-input-field {
+.ant-input.title-input-field {
   font-weight: bold;
   width: 120px;
   padding: 2px;
   height: 24px;
   margin-top: -22px;
+  background-color: #fafafa;
+}
+
+.ant-input.title-input-field:focus {
+  background-color: #ffffff;
 }
 
 .download-link {
@@ -313,6 +318,11 @@ input[type="text"]::-webkit-input-placeholder {
 }
 
 .scalebar-options {}
+
+.scalebar-options:hover {
+  cursor: pointer;
+  color: #0645AD;
+}
 
 .scalebar-title {
   margin-right: 8px;

@@ -25,8 +25,8 @@ class Main extends React.Component {
       inputUnitsValue: '',
       cursorStyle: 'auto',
 
-      scalebarTextColor: '#ff0000',
-      scalebarBgColor: '#00ff00'
+      scalebarTextColor: '#000000',
+      scalebarBgColor: '#ffffff'
 
 
     };
@@ -66,6 +66,7 @@ class Main extends React.Component {
   }
   // Called from Sidebar when user uploads file
   handleFileUpload = (event) => {
+    console.log('handlefileUpload called')
     if (event.target.files.length === 0) return;
     var url = URL.createObjectURL(event.target.files[0]);
     var img = new Image();
