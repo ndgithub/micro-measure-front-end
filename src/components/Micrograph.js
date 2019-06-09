@@ -6,6 +6,8 @@ class Micrograph extends React.Component {
     this.state = {
       size: null,
       pos: null,
+      cursorStyle: 'auto',
+
     };
     this.myRef = React.createRef();
 
@@ -19,6 +21,15 @@ class Micrograph extends React.Component {
 
   }
 
+  mouseDown = () => {
+
+
+
+  }
+
+
+
+
   render() {
     var myStyle = {};
     if (this.props.imageLoaded === true) {
@@ -27,15 +38,16 @@ class Micrograph extends React.Component {
         backgroundImage: 'url(' + this.props.selectedFile + ')',
         backgroundSize: Math.floor(this.props.size.width) + 'px ' + Math.floor(this.props.size.height) + 'px',
         backgroundPosition: Math.floor(this.props.pos.x) + 'px ' + Math.floor(this.props.pos.y) + 'px',
-        cursor: this.props.cursorStyle
+        cursor: this.props.cursorStyle,
       }
       return (
         <div ref={this.myRef} style={myStyle} id="micro-container"
           onWheel={(e) => this.props.onMouseScroll(e)}
-          onMouseDown={(e) => this.props.mouseDown(e)}
-          onMouseUp={(e) => this.props.mouseUp(e)}
+          onMouseDown={(e) => { this.props.mouseDown(e) }}
+          onMouseUp={(e) => { this.props.mouseUp(e) }}
           onMouseMove={(e) => this.props.mouseMove(e)}
-          onMouseLeave={(e) => this.props.mouseLeave(e)} >
+          onMouseLeave={(e) => this.props.mouseLeave(e)}
+          onMouseEnter={(e) => this.props.mouseEnter(e)} >
 
           {this.props.isImageScaleSet && this.props.isScalebarChecked &&
             <Scalebar size={this.props.size}

@@ -151,32 +151,6 @@ class Main extends React.Component {
 
   }
 
-  mouseDown = (e) => {
-    this.isMouseDown = true;
-    this.lastMouseDownPos = {
-      x: e.pageX,
-      y: e.pageY
-    }
-
-  }
-
-  mouseUp = (e) => {
-
-    this.isMouseDown = false;
-    this.lastMouseUpPos = {
-      x: e.pageX,
-      y: e.pageY
-    }
-    // if scalebar setting is in progress and wasn't dragged, its a click pt. 
-    if ((this.state.isScaleSetInProg) && !this.wasDragged()) {
-      this.setState(prevState => ({
-        scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
-      }));
-    }
-    this.setState({
-      cursorStyle: 'auto'
-    })
-  }
 
   onCheckUseScalebar = (checked) => {
     this.setState({
@@ -209,14 +183,56 @@ class Main extends React.Component {
 
   }
 
+  mouseDown = (e) => {
+    this.isMouseDown = true;
+    this.lastMouseDownPos = {
+      x: e.pageX,
+      y: e.pageY
+    }
+    this.setState({
+      cursorStyle: (this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'move')
+    })
+
+  }
+
+  mouseUp = (e) => {
+
+    this.isMouseDown = false;
+    this.lastMouseUpPos = {
+      x: e.pageX,
+      y: e.pageY
+    }
+    // if scalebar setting is in progress and wasn't dragged, its a click pt. 
+    if ((this.state.isScaleSetInProg) && !this.wasDragged()) {
+      this.setState(prevState => ({
+        scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
+      }), () => {
+        this.setState({
+          cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
+        })
+      });
+    }
+    this.setState({
+      cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
+    })
+
+
+  }
+
+  mouseEnter = (e) => {
+    this.setState({
+      cursorStyle: (this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto')
+    })
+  }
+
+
   mouseMove = (e) => {
-    this.setState({ cursorStyle: 'auto' })
     if (this.isMouseDown) {
       let diffX = this.lastMousePos.x - e.pageX;
       let diffY = this.lastMousePos.y - e.pageY;
       this.lastMousePos = { x: e.pageX, y: e.pageY }
       this.setState({
-        cursorStyle: 'move',
+
         pos: {
           x: this.state.pos.x - diffX,
           y: this.state.pos.y - diffY
@@ -337,12 +353,15 @@ class Main extends React.Component {
         mouseUp={this.mouseUp}
         mouseMove={this.mouseMove}
         mouseLeave={this.mouseLeave}
+        mouseEnter={this.mouseEnter}
         isImageScaleSet={this.state.isImageScaleSet}
         isScalebarChecked={this.state.isScalebarChecked}
         units={this.state.units}
-        cursorStyle={this.state.cursorStyle}
         scalebarTextColor={this.state.scalebarTextColor}
         scalebarBgColor={this.state.scalebarBgColor}
+        isScaleSetInProg={this.state.isScaleSetInProg}
+        scalePtsLength={this.state.scalePts.length}
+        cursorStyle={this.state.cursorStyle}
       />
     </>)
   }
