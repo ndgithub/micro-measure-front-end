@@ -4,6 +4,7 @@ import ScalebarOptions from './ScalebarOptions';
 import MiniView from './MiniView';
 import FileInput from './FileInput';
 import SetImageScale from './SetImageScale';
+import DrawLineOptions from './DrawLineOptions';
 
 
 class Sidebar extends React.Component {
@@ -46,7 +47,8 @@ class Sidebar extends React.Component {
               size={this.props.size}
               pos={this.props.pos}
               origDims={this.props.origDims} />
-
+            <DrawLineOptions
+              onClickDrawLine={this.props.onClickDrawLine} />
             <SetImageScale
               scalePtsLength={this.props.scalePtsLength}
               onInputLengthChange={this.props.onInputLengthChange}
@@ -59,9 +61,8 @@ class Sidebar extends React.Component {
               isScaleSetInProg={this.props.isScaleSetInProg}
               onClickCancelSetting={this.props.onClickCancelSetting}
               handleFileUpload={this.props.handleFileUpload}
-
             />
-            {this.props.isImageScaleSet && <ScalebarOptions
+            {this.props.isImageScaleSet && <><ScalebarOptions
               onCheckUseScalebar={this.props.onCheckUseScalebar}
               isScalebarChecked={this.props.isScalebarChecked}
               isImageScaleSet={this.props.isImageScaleSet}
@@ -70,8 +71,7 @@ class Sidebar extends React.Component {
               showScalebarColorOptions={this.props.showScalebarColorOptions}
               onClickScaleTextColor={this.props.onClickScaleTextColor}
               onClickScaleBgColor={this.props.onClickScaleBgColor}
-
-            />
+            /> </>
             }
             {!this.props.isScaleSetInProg && <Snapshots onSaveSnapClicked={this.props.onSaveSnapClicked} snapUrls={this.props.snapUrls} />}
 

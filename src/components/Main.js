@@ -26,7 +26,11 @@ class Main extends React.Component {
       cursorStyle: 'auto',
 
       scalebarTextColor: '#000000',
-      scalebarBgColor: '#ffffff'
+      scalebarBgColor: '#ffffff',
+
+      isDrawLineinProg: false,
+      currDrawLinePts: null,
+      drawLines: null
 
 
     };
@@ -151,7 +155,6 @@ class Main extends React.Component {
 
   }
 
-
   onCheckUseScalebar = (checked) => {
     this.setState({
       isScalebarChecked: checked
@@ -183,69 +186,7 @@ class Main extends React.Component {
 
   }
 
-  mouseDown = (e) => {
-    this.isMouseDown = true;
-    this.lastMouseDownPos = {
-      x: e.pageX,
-      y: e.pageY
-    }
-    this.setState({
-      cursorStyle: (this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'move')
-    })
 
-  }
-
-  mouseUp = (e) => {
-
-    this.isMouseDown = false;
-    this.lastMouseUpPos = {
-      x: e.pageX,
-      y: e.pageY
-    }
-    // if scalebar setting is in progress and wasn't dragged, its a click pt. 
-    if ((this.state.isScaleSetInProg) && !this.wasDragged()) {
-      this.setState(prevState => ({
-        scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
-      }), () => {
-        this.setState({
-          cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
-        })
-      });
-    }
-    this.setState({
-      cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
-    })
-
-
-  }
-
-  mouseEnter = (e) => {
-    this.setState({
-      cursorStyle: (this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto')
-    })
-  }
-
-
-  mouseMove = (e) => {
-    if (this.isMouseDown) {
-      let diffX = this.lastMousePos.x - e.pageX;
-      let diffY = this.lastMousePos.y - e.pageY;
-      this.lastMousePos = { x: e.pageX, y: e.pageY }
-      this.setState({
-        pos: {
-          x: this.state.pos.x - diffX,
-          y: this.state.pos.y - diffY
-        },
-        cursorStyle: 'move'
-      })
-    } else {
-      this.lastMousePos = { x: e.pageX, y: e.pageY }
-    }
-  }
-
-  mouseLeave = (e) => {
-    this.isMouseDown = false;
-  }
 
   onInputLengthChange = (e) => {
     e.preventDefault();
@@ -307,6 +248,107 @@ class Main extends React.Component {
     })
   }
 
+
+  mouseDown = (e) => {
+    this.isMouseDown = true;
+    this.lastMouseDownPos = {
+      x: e.pageX,
+      y: e.pageY
+    }
+    if (this.state.isDrawLineinProg) {
+      this.setState({
+        currDrawLinePts: [this.lastMouseDownPos]
+      }, () => console.log(this.state.currDrawLinePts))
+    } else {
+      this.setState({
+        cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) ? 'crosshair' : 'move')
+      })
+    }
+
+
+  }
+
+  mouseUp = (e) => {
+
+    this.isMouseDown = false;
+    this.lastMouseUpPos = {
+      x: e.pageX,
+      y: e.pageY
+    }
+    // if scalebar setting is in progress and wasn't dragged, its a click pt. 
+    if ((this.state.isScaleSetInProg)) {
+      this.setState(prevState => ({
+        scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
+      }), () => {
+        this.setState({
+          cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
+        })
+      });
+    }
+
+    if ((this.state.isDrawLineinProg) && !this.wasDragged()) {
+      this.setState(prevState => ({
+        scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
+      }), () => {
+        this.setState({
+          cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
+        })
+      });
+    }
+
+    this.setState({
+      cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto')),
+      isDrawLineinProg: false,
+    })
+
+
+  }
+
+  mouseEnter = (e) => {
+    this.setState({
+      cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) || this.state.isDrawLineinProg ? 'crosshair' : 'auto')
+    })
+  }
+
+
+  mouseMove = (e) => {
+    if (this.isMouseDown && !this.state.isDrawLineinProg) {
+      let diffX = this.lastMousePos.x - e.pageX;
+      let diffY = this.lastMousePos.y - e.pageY;
+      this.lastMousePos = { x: e.pageX, y: e.pageY }
+      this.setState({
+        pos: {
+          x: this.state.pos.x - diffX,
+          y: this.state.pos.y - diffY
+        },
+        cursorStyle: 'move'
+      })
+    } else if (this.isMouseDown && this.state.isDrawLineinProg) {
+      this.setState({
+        currDrawLinePts: [this.state.currDrawLinePts[0], { x: e.pageX, y: e.pageY }]
+      }, () => console.log(this.state.currDrawLinePts))
+      this.lastMousePos = { x: e.pageX, y: e.pageY }
+    }
+  }
+
+  mouseLeave = (e) => {
+    this.isMouseDown = false;
+  }
+
+
+
+
+  onClickDrawLine = () => {
+    this.setState({
+      isDrawLineinProg: true,
+      isScaleSetInProg: false,
+    }, () => {
+      console.log('draw lin in progress')
+    });
+
+  }
+
+
   render() {
     return (<>
       <Sidebar
@@ -335,6 +377,8 @@ class Main extends React.Component {
         onClickCancelSetting={this.onClickCancelSetting}
         onClickScaleTextColor={this.onClickScaleTextColor}
         onClickScaleBgColor={this.onClickScaleBgColor}
+        isDrawLineinProg={this.isDrawLineinProg}
+        onClickDrawLine={this.onClickDrawLine}
 
 
 

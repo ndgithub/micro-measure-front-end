@@ -1,5 +1,6 @@
 import React from "react";
 import Scalebar from './Scalebar'
+import CanvasLayer from './CanvasLayer';
 class Micrograph extends React.Component {
   constructor(props) {
     super(props);
@@ -48,7 +49,7 @@ class Micrograph extends React.Component {
           onMouseMove={(e) => this.props.mouseMove(e)}
           onMouseLeave={(e) => this.props.mouseLeave(e)}
           onMouseEnter={(e) => this.props.mouseEnter(e)} >
-
+          <CanvasLayer />
           {this.props.isImageScaleSet && this.props.isScalebarChecked &&
             <Scalebar size={this.props.size}
               imgSizeUnits={this.props.imgSizeUnits}
