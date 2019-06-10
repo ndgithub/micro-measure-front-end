@@ -49,7 +49,13 @@ class Micrograph extends React.Component {
           onMouseMove={(e) => this.props.mouseMove(e)}
           onMouseLeave={(e) => this.props.mouseLeave(e)}
           onMouseEnter={(e) => this.props.mouseEnter(e)} >
-          <CanvasLayer />
+          <CanvasLayer
+            isDrawLineInProg={this.props.isDrawLineInProg}
+            currDrawLinePts={this.props.currDrawLinePts}
+            containerRef={this.myRef}
+            drawLines={this.props.drawLines}
+            size={this.props.size}
+            pos={this.props.pos} />
           {this.props.isImageScaleSet && this.props.isScalebarChecked &&
             <Scalebar size={this.props.size}
               imgSizeUnits={this.props.imgSizeUnits}

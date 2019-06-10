@@ -48,7 +48,8 @@ class Sidebar extends React.Component {
               pos={this.props.pos}
               origDims={this.props.origDims} />
             <DrawLineOptions
-              onClickDrawLine={this.props.onClickDrawLine} />
+              onClickDrawLine={this.props.onClickDrawLine}
+            />
             <SetImageScale
               scalePtsLength={this.props.scalePtsLength}
               onInputLengthChange={this.props.onInputLengthChange}

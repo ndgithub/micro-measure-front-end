@@ -28,9 +28,9 @@ class Main extends React.Component {
       scalebarTextColor: '#000000',
       scalebarBgColor: '#ffffff',
 
-      isDrawLineinProg: false,
+      isDrawLineInProg: false,
       currDrawLinePts: null,
-      drawLines: null
+      drawLines: [],
 
 
     };
@@ -255,7 +255,11 @@ class Main extends React.Component {
       x: e.pageX,
       y: e.pageY
     }
-    if (this.state.isDrawLineinProg) {
+
+    console.log('lastMouseDownPos', this.lastMouseDownPos);
+
+
+    if (this.state.isDrawLineInProg) {
       this.setState({
         currDrawLinePts: [this.lastMouseDownPos]
       }, () => console.log(this.state.currDrawLinePts))
@@ -275,22 +279,30 @@ class Main extends React.Component {
       x: e.pageX,
       y: e.pageY
     }
+
+    console.log('this.lastMouseUpPos', this.lastMouseUpPos);
+
+
+
     // if scalebar setting is in progress and wasn't dragged, its a click pt. 
-    if ((this.state.isScaleSetInProg)) {
+    if ((this.state.isScaleSetInProg) && !this.wasDragged()) {
       this.setState(prevState => ({
         scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
       }), () => {
         this.setState({
-          cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
+          cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto')),
+          isDrawLineInProg: false,
         })
       });
     }
 
-    if ((this.state.isDrawLineinProg) && !this.wasDragged()) {
+    if ((this.state.isDrawLineInProg)) {
       this.setState(prevState => ({
-        scalePts: [...prevState.scalePts, this.convertToImgPos(this.lastMouseUpPos)]
+        drawLines: [...prevState.drawLines, { pt1: this.convertToImgPos(this.lastMouseDownPos), pt2: this.convertToImgPos(this.lastMouseUpPos) }]
       }), () => {
         this.setState({
+          isDrawLineInProg: false,
+          currDrawLinePts: [],
           cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
         })
       });
@@ -298,21 +310,22 @@ class Main extends React.Component {
 
     this.setState({
       cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto')),
-      isDrawLineinProg: false,
+      isDrawLineInProg: false,
     })
+
 
 
   }
 
   mouseEnter = (e) => {
     this.setState({
-      cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) || this.state.isDrawLineinProg ? 'crosshair' : 'auto')
+      cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) || this.state.isDrawLineInProg ? 'crosshair' : 'auto')
     })
   }
 
 
   mouseMove = (e) => {
-    if (this.isMouseDown && !this.state.isDrawLineinProg) {
+    if (this.isMouseDown && !this.state.isDrawLineInProg) {
       let diffX = this.lastMousePos.x - e.pageX;
       let diffY = this.lastMousePos.y - e.pageY;
       this.lastMousePos = { x: e.pageX, y: e.pageY }
@@ -323,12 +336,14 @@ class Main extends React.Component {
         },
         cursorStyle: 'move'
       })
-    } else if (this.isMouseDown && this.state.isDrawLineinProg) {
+    } else if (this.isMouseDown && this.state.isDrawLineInProg) {
       this.setState({
         currDrawLinePts: [this.state.currDrawLinePts[0], { x: e.pageX, y: e.pageY }]
       }, () => console.log(this.state.currDrawLinePts))
       this.lastMousePos = { x: e.pageX, y: e.pageY }
     }
+    this.lastMousePos = { x: e.pageX, y: e.pageY }
+
   }
 
   mouseLeave = (e) => {
@@ -340,7 +355,7 @@ class Main extends React.Component {
 
   onClickDrawLine = () => {
     this.setState({
-      isDrawLineinProg: true,
+      isDrawLineInProg: true,
       isScaleSetInProg: false,
     }, () => {
       console.log('draw lin in progress')
@@ -377,7 +392,7 @@ class Main extends React.Component {
         onClickCancelSetting={this.onClickCancelSetting}
         onClickScaleTextColor={this.onClickScaleTextColor}
         onClickScaleBgColor={this.onClickScaleBgColor}
-        isDrawLineinProg={this.isDrawLineinProg}
+        isDrawLineInProg={this.isDrawLineInProg}
         onClickDrawLine={this.onClickDrawLine}
 
 
@@ -406,6 +421,10 @@ class Main extends React.Component {
         isScaleSetInProg={this.state.isScaleSetInProg}
         scalePtsLength={this.state.scalePts.length}
         cursorStyle={this.state.cursorStyle}
+
+        isDrawLineInProg={this.state.isDrawLineInProg}
+        currDrawLinePts={this.state.currDrawLinePts}
+        drawLines={this.state.drawLines}
       />
     </>)
   }
