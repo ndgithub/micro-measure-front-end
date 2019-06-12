@@ -55,7 +55,8 @@ class Micrograph extends React.Component {
             containerRef={this.myRef}
             drawLines={this.props.drawLines}
             size={this.props.size}
-            pos={this.props.pos} />
+            pos={this.props.pos}
+            lastMousePos={this.props.lastMousePos} />
           {this.props.isImageScaleSet && this.props.isScalebarChecked &&
             <Scalebar size={this.props.size}
               imgSizeUnits={this.props.imgSizeUnits}

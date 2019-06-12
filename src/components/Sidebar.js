@@ -9,14 +9,7 @@ import DrawLineOptions from './DrawLineOptions';
 
 class Sidebar extends React.Component {
   constructor(props) {
-    //PROPS
-    // handleFileUpload={this.handleFileUpload}
-    //     onClickScalebarBtn={this.onClickScalebarBtn}
-    //     onSaveSnapClicked={this.onSaveSnapClicked}
-    //     snapUrls={this.state.snapUrls}
-    //     imageLoaded={this.state.imageLoaded}
-    //     numPtsClicked={this.scalePts.length}
-    //     onCheckUseScalebar={this.onCheckUseScalebar}
+
     super(props);
     this.state = {
 

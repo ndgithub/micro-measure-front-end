@@ -81,7 +81,6 @@ class MiniView extends React.Component {
       let boxHeight = ((this.props.containerRef.current.offsetHeight / this.props.size.height) * this.state.bgSize.height);
 
       if (this.state.bgSize.width / this.state.bgSize.height > this.miniRef.current.offsetWidth / this.miniRef.current.offsetHeight) {
-        console.log('1');
         if (boxLeftPos < this.state.bgPos.x + 1) {
           boxLeftPos = this.state.bgPos.x + 1;
         }
@@ -90,17 +89,14 @@ class MiniView extends React.Component {
         }
 
         if (boxLeftPos + boxWidth > this.state.bgPos.x + this.state.bgSize.width - 1) {
-          console.log('yes');
           boxWidth = this.miniRef.current.offsetWidth - boxLeftPos - (this.state.bgPos.x) - 1
         } else {
-          console.log('no');
         }
 
         if (boxTopPos + boxHeight > this.state.bgPos.y + this.state.bgSize.height - 2) {
           boxHeight = this.miniRef.current.offsetHeight - boxTopPos - (this.state.bgPos.y) - 2;
         }
       } else {
-        console.log('2');
         if (boxLeftPos < this.state.bgPos.x) {
           boxLeftPos = this.state.bgPos.x;
         }
@@ -109,10 +105,8 @@ class MiniView extends React.Component {
         }
 
         if (boxLeftPos + boxWidth > this.state.bgPos.x + this.state.bgSize.width - 2) {
-          console.log('yes');
           boxWidth = this.miniRef.current.offsetWidth - boxLeftPos - (this.state.bgPos.x) - 2
         } else {
-          console.log('no');
         }
 
         if (boxTopPos + boxHeight > this.state.bgPos.y + this.state.bgSize.height - 1) {
