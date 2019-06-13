@@ -2,6 +2,8 @@ import React from 'react';
 import Sidebar from './Sidebar';
 import Micrograph from './Micrograph';
 import html2canvas from 'html2canvas';
+import MeasureLine from './models/MeasureLine';
+
 
 
 class Main extends React.Component {
@@ -28,9 +30,9 @@ class Main extends React.Component {
       scalebarTextColor: '#000000',
       scalebarBgColor: '#ffffff',
 
-      isDrawLineInProg: false,
-      currDrawLinePts: null,
-      drawLines: [],
+      isMeasureLineInProg: false,
+      currMeasureLinePts: null,
+      measureLines: [],
       lastMousePos: null
 
 
@@ -245,13 +247,10 @@ class Main extends React.Component {
       y: e.pageY
     }
 
-    console.log('lastMouseDownPos', this.lastMouseDownPos);
-
-
-    if (this.state.isDrawLineInProg) {
-      this.setState({
-        currDrawLinePts: [this.lastMouseDownPos]
-      }, () => console.log(this.state.currDrawLinePts))
+    if (this.state.isMeasureLineInProg) {
+      this.setState(prevState => ({
+        measureLines: [...prevState.measureLines, new MeasureLine(this.convertToImgPos(this.lastMouseDownPos), this.convertToImgPos(this.lastMouseDownPos))]
+      }))
     } else {
       this.setState({
         cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) ? 'crosshair' : 'move')
@@ -261,6 +260,29 @@ class Main extends React.Component {
 
   }
 
+  // mouseDown = (e) => {
+  //   this.isMouseDown = true;
+  //   this.lastMouseDownPos = {
+  //     x: e.pageX,
+  //     y: e.pageY
+  //   }
+
+  //   console.log('lastMouseDownPos', this.lastMouseDownPos);
+
+
+  //   if (this.state.isMeasureLineInProg) {
+  //     this.setState({
+  //       currMeasureLinePts: [this.lastMouseDownPos]
+  //     }, () => console.log(this.state.currMeasureLinePts))
+  //   } else {
+  //     this.setState({
+  //       cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) ? 'crosshair' : 'move')
+  //     })
+  //   }
+
+
+  // }
+
 
   addScalePt = () => {
     this.setState(prevState => ({
@@ -268,7 +290,7 @@ class Main extends React.Component {
     }), () => {
       this.setState({
         cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto')),
-        isDrawLineInProg: false,
+        isMeasureLineInProg: false,
       })
     });
   }
@@ -285,64 +307,53 @@ class Main extends React.Component {
       this.addScalePt();
     }
 
-    if ((this.state.isDrawLineInProg)) {
+    if ((this.state.isMeasureLineInProg)) {
       this.addDrawLine();
     }
 
     this.setState({
       cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto')),
-      isDrawLineInProg: false,
+      isMeasureLineInProg: false,
     })
   }
 
   mouseEnter = (e) => {
     this.setState({
-      cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) || this.state.isDrawLineInProg ? 'crosshair' : 'auto')
+      cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) || this.state.isMeasureLineInProg ? 'crosshair' : 'auto')
     })
   }
 
 
   mouseMove = (e) => {
+    e.persist();
     // If trying to drag
-    if (this.isMouseDown && !this.state.isDrawLineInProg) {
+    if (this.isMouseDown && !this.state.isMeasureLineInProg) {
       let diffX = this.state.lastMousePos.x - e.pageX;
       let diffY = this.state.lastMousePos.y - e.pageY;
-      // this.state.lastMousePos = { x: e.pageX, y: e.pageY }
       this.setState({
         lastMousePos: { x: e.pageX, y: e.pageY },
         pos: {
-
           x: this.state.pos.x - diffX,
           y: this.state.pos.y - diffY
         },
         cursorStyle: 'move'
       })
       // If trying to draw line
-    } else if (this.isMouseDown && this.state.isDrawLineInProg) {
-      this.setState({
-        currDrawLinePts: [this.state.currDrawLinePts[0], { x: e.pageX, y: e.pageY }],
+    } else if (this.isMouseDown && this.state.isMeasureLineInProg) {
+
+      this.setState(prevState => ({
+        measureLines: [...prevState.measureLines.slice(0, -1), new MeasureLine(this.convertToImgPos(this.lastMouseDownPos), this.convertToImgPos(prevState.lastMousePos))],
         lastMousePos: { x: e.pageX, y: e.pageY },
-      })
+      }))
       // this.state.lastMousePos = { x: e.pageX, y: e.pageY }
       //if just moving the mouse around
-    } else if (!this.isMouseDown && !this.state.isDrawLineInProg) {
-
-
-
-
-
-
-
-
-
-
+    } else if (!this.isMouseDown && !this.state.isMeasureLineInProg) {
 
     }
     this.setState({
       lastMousePos: { x: e.pageX, y: e.pageY }
     })
     // this.state.lastMousePos = { x: e.pageX, y: e.pageY }
-
   }
 
   mouseLeave = (e) => {
@@ -351,20 +362,18 @@ class Main extends React.Component {
 
   onClickDrawLine = () => {
     this.setState({
-      isDrawLineInProg: true,
+      isMeasureLineInProg: true,
       isScaleSetInProg: false,
-    }, () => {
-      console.log('draw lin in progress')
     });
   }
 
   addDrawLine = () => {
     this.setState(prevState => ({
-      drawLines: [...prevState.drawLines, { pt1: this.convertToImgPos(this.lastMouseDownPos), pt2: this.convertToImgPos(this.lastMouseUpPos) }]
+      measureLines: [...prevState.measureLines, new MeasureLine(this.convertToImgPos(this.lastMouseDownPos), this.convertToImgPos(this.lastMouseUpPos))]
     }), () => {
       this.setState({
-        isDrawLineInProg: false,
-        currDrawLinePts: [],
+        isMeasureLineInProg: false,
+        currMeasureLinePts: [],
         cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto'))
       })
     });
@@ -401,7 +410,7 @@ class Main extends React.Component {
         onClickCancelSetting={this.onClickCancelSetting}
         onClickScaleTextColor={this.onClickScaleTextColor}
         onClickScaleBgColor={this.onClickScaleBgColor}
-        isDrawLineInProg={this.isDrawLineInProg}
+        isMeasureLineInProg={this.isMeasureLineInProg}
         onClickDrawLine={this.onClickDrawLine}
 
       />
@@ -427,9 +436,9 @@ class Main extends React.Component {
         scalePtsLength={this.state.scalePts.length}
         cursorStyle={this.state.cursorStyle}
 
-        isDrawLineInProg={this.state.isDrawLineInProg}
-        currDrawLinePts={this.state.currDrawLinePts}
-        drawLines={this.state.drawLines}
+        isMeasureLineInProg={this.state.isMeasureLineInProg}
+        currMeasureLinePts={this.state.currMeasureLinePts}
+        measureLines={this.state.measureLines}
         lastMousePos={this.state.lastMousePos}
       />
     </div>)
