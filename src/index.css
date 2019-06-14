@@ -162,6 +162,29 @@ h2#section-title {
   margin: 16px 0px 16px 0px;
 }
 
+.feedback-container {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 4px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.feedback-button {
+  color: #8c8c8c;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: lighter;
+}
+
+.feedback-button:hover {
+  color: #262626;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: lighter;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .snapshots-list {
   flex: 1;
   overflow: auto;
@@ -170,6 +193,7 @@ h2#section-title {
   flex-wrap: wrap;
   align-content: flex-start;
   width: 100%;
+  margin-bottom: 8px;
 }
 
 .snapshot-container {

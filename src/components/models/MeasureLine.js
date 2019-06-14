@@ -1,9 +1,9 @@
 export default class MeasureLine {
-  constructor(pt1, pt2, color = '#ff0000', active = true, selected = true) {
+  constructor(pt1, pt2, color = '#ff0000', hover = true, selected = false) {
     this.pt1 = pt1;
     this.pt2 = pt2;
     this.color = color;
-    this.active = active;
+    this.hover = hover;
     this.selected = selected;
   }
 }

@@ -30,8 +30,8 @@ class CanvasLayer extends React.Component {
     for (let i = 0; i < this.props.measureLines.length; i++) {
 
       const lineObj = this.props.measureLines[i];
-      ctx.strokeStyle = "#1890ff";
-      ctx.lineWidth = 10;
+      ctx.strokeStyle = lineObj.color;
+      ctx.lineWidth = 4;
       ctx.beginPath();
       ctx.moveTo(this.convertToContainerPos(lineObj.pt1).x, this.convertToContainerPos(lineObj.pt1).y);
       ctx.lineTo(this.convertToContainerPos(lineObj.pt2).x, this.convertToContainerPos(lineObj.pt2).y);
@@ -40,6 +40,7 @@ class CanvasLayer extends React.Component {
       if (ctx.isPointInStroke(this.props.lastMousePos.x - this.props.containerRef.current.offsetLeft, this.props.lastMousePos.y - this.props.containerRef.current.offsetTop)) {
         console.log('true')
         console.count();
+
       }
 
     }

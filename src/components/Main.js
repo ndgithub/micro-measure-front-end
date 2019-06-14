@@ -31,10 +31,8 @@ class Main extends React.Component {
       scalebarBgColor: '#ffffff',
 
       isMeasureLineInProg: false,
-      currMeasureLinePts: null,
       measureLines: [],
       lastMousePos: null
-
 
     };
 
@@ -88,9 +86,16 @@ class Main extends React.Component {
 
         isImageScaleSet: false,
         isScalebarChecked: false,
+        isScaleSetInProg: false,
+        imgSizeUnits: null,
+        units: null,
         inputLengthValue: '',
         inputUnitsValue: '',
-        scalePts: []
+        scalePts: [],
+
+        isMeasureLineInProg: false,
+        measureLines: [],
+        lastMousePos: null
       });
     }
     img.src = url;

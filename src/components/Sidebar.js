@@ -5,16 +5,15 @@ import MiniView from './MiniView';
 import FileInput from './FileInput';
 import SetImageScale from './SetImageScale';
 import DrawLineOptions from './DrawLineOptions';
+import Feedback from './Feedback';
+import CollectionsPage from './CollectionsPage';
 
 
 class Sidebar extends React.Component {
   constructor(props) {
-
     super(props);
     this.state = {
-
     };
-
   }
 
   componentDidMount() {
@@ -69,8 +68,10 @@ class Sidebar extends React.Component {
             }
             {!this.props.isScaleSetInProg && <Snapshots onSaveSnapClicked={this.props.onSaveSnapClicked} snapUrls={this.props.snapUrls} />}
 
+
           </>
           )}
+        <CollectionsPage />
       </div>
     );
   }
