@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button } from 'antd';
 import CollectionCreateForm from './CollectionCreateForm';
 import axios from 'axios';
 
-class CollectionsPage extends React.Component {
+class FeedbackButton extends React.Component {
   state = {
     visible: false,
   };
@@ -50,19 +49,12 @@ class CollectionsPage extends React.Component {
     this.formRef = formRef;
   };
 
-  onHover = () => {
-    this.setState({
-      style: {
-        textDecoration: 'underline'
-      }
 
-    });
-  }
 
   render() {
     return (
       <div className="feedback-container" >
-        <div className="feedback-button" style={this.state.style} type="primary" onClick={this.showModal} onHover={this.onHover} >
+        <div className="feedback-button" style={this.state.style} type="primary" onClick={this.showModal}  >
           Give Feedback...
         </div>
         <CollectionCreateForm
@@ -76,4 +68,4 @@ class CollectionsPage extends React.Component {
   }
 }
 
-export default CollectionsPage;
+export default FeedbackButton;

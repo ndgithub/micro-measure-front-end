@@ -7,7 +7,6 @@ class Micrograph extends React.Component {
     this.state = {
       size: null,
       pos: null,
-      cursorStyle: 'auto',
 
     };
     this.myRef = React.createRef();
@@ -50,13 +49,16 @@ class Micrograph extends React.Component {
           onMouseLeave={(e) => this.props.mouseLeave(e)}
           onMouseEnter={(e) => this.props.mouseEnter(e)} >
           <CanvasLayer
-            isMeasureLineInProg={this.props.isMeasureLineInProg}
-            currMeasureLinePts={this.props.currMeasureLinePts}
             containerRef={this.myRef}
             measureLines={this.props.measureLines}
             size={this.props.size}
             pos={this.props.pos}
-            lastMousePos={this.props.lastMousePos} />
+            lastMousePos={this.props.lastMousePos}
+            setLineStatus={this.props.setLineStatus}
+
+            isScaleSetInProg={this.props.isScaleSetInProg}
+            isMeasureLineInProg={this.props.isMeasureLineInProg}
+          />
           {this.props.isImageScaleSet && this.props.isScalebarChecked &&
             <Scalebar size={this.props.size}
               imgSizeUnits={this.props.imgSizeUnits}

@@ -5,8 +5,7 @@ import MiniView from './MiniView';
 import FileInput from './FileInput';
 import SetImageScale from './SetImageScale';
 import DrawLineOptions from './DrawLineOptions';
-import Feedback from './Feedback';
-import CollectionsPage from './CollectionsPage';
+import FeedbackButton from './FeedbackButton';
 
 
 class Sidebar extends React.Component {
@@ -40,6 +39,9 @@ class Sidebar extends React.Component {
               pos={this.props.pos}
               origDims={this.props.origDims} />
 
+            <DrawLineOptions
+              onClickDrawLine={this.props.onClickDrawLine}
+            />
             <SetImageScale
               scalePtsLength={this.props.scalePtsLength}
               onInputLengthChange={this.props.onInputLengthChange}
@@ -69,7 +71,7 @@ class Sidebar extends React.Component {
 
           </>
           )}
-        <CollectionsPage />
+        <FeedbackButton />
       </div>
     );
   }
