@@ -30,7 +30,7 @@ class SvgLayer extends React.Component {
   render() {
     return (
 
-      <svg id='svg' width={this.props.containerRef.current.offsetWidth} height={this.props.containerRef.current.offsetHeight}>
+      <svg id='svg'>
         {
           this.props.measureLines.map(lineObj => {
             let pt1 = this.convertToContainerPos(lineObj.pt1);
@@ -38,8 +38,9 @@ class SvgLayer extends React.Component {
 
             return (
               <line key={lineObj.id} x1={pt1.x} y1={pt1.y} x2={pt2.x} y2={pt2.y}
-                style={{ stroke: lineObj.color, strokeWidth: lineObj.isHover ? 8 : 4 }}
-                onMouseEnter={() => this.props.setLineHover(lineObj.id, true)} onMouseLeave={() => this.props.setLineHover(lineObj.id, false)} />
+                style={{ stroke: lineObj.isHover ? '#ff0000' : '#00ff00', strokeWidth: 4 }}
+                onMouseEnter={() => this.props.setLineHover(lineObj.id, true)}
+                onMouseLeave={() => this.props.setLineHover(lineObj.id, false)} />
             )
           })
         }
