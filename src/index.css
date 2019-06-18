@@ -133,6 +133,10 @@ h2#section-title {
   /* background-color: #e0e0f0; */
 }
 
+#svg {
+  border: 2px solid #00ff00;
+}
+
 #scale-bar {
   font-variant: normal;
   height: 55px;

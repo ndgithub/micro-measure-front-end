@@ -1,6 +1,7 @@
 import React from "react";
 import Scalebar from './Scalebar'
-import CanvasLayer from './CanvasLayer';
+// import CanvasLayer from './CanvasLayer';
+import SvgLayer from './SvgLayer'
 class Micrograph extends React.Component {
   constructor(props) {
     super(props);
@@ -48,13 +49,24 @@ class Micrograph extends React.Component {
           onMouseMove={(e) => this.props.mouseMove(e)}
           onMouseLeave={(e) => this.props.mouseLeave(e)}
           onMouseEnter={(e) => this.props.mouseEnter(e)} >
-          <CanvasLayer
+          {/* <CanvasLayer
             containerRef={this.myRef}
             measureLines={this.props.measureLines}
             size={this.props.size}
             pos={this.props.pos}
             lastMousePos={this.props.lastMousePos}
             setLineStatus={this.props.setLineStatus}
+
+            isScaleSetInProg={this.props.isScaleSetInProg}
+            isMeasureLineInProg={this.props.isMeasureLineInProg}
+          /> */}
+          <SvgLayer
+            containerRef={this.myRef}
+            measureLines={this.props.measureLines}
+            size={this.props.size}
+            pos={this.props.pos}
+            setLineHover={this.props.setLineHover}
+            setLineSelected={this.props.setLineSelected}
 
             isScaleSetInProg={this.props.isScaleSetInProg}
             isMeasureLineInProg={this.props.isMeasureLineInProg}

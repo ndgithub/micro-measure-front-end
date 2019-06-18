@@ -41,6 +41,7 @@ class Main extends React.Component {
     this.origDims = null;
     this.isMouseDown = null;
     this.moveLine = null;
+    this.lastMousePos = null;
   }
 
   useDemoUpload = () => {
@@ -97,7 +98,7 @@ class Main extends React.Component {
 
         isMeasureLineInProg: false,
         measureLines: [],
-        lastMousePos: null
+
       });
     }
     img.src = url;
@@ -214,6 +215,12 @@ class Main extends React.Component {
     return { x: imgPtX, y: imgPtY };
   }
 
+  convertToContainerPos = (imagePos) => {
+    let x = this.state.pos.x + (this.state.size.width * imagePos.x)
+    let y = this.state.pos.y + (this.state.size.height * imagePos.y)
+    return { x, y };
+  }
+
   onSaveSnapClicked = () => {
     html2canvas(this.state.containerRef.current, { logging: false, useCORS: true }).then(canvas => {
       let canvDataUrl = canvas.toDataURL();
@@ -268,26 +275,24 @@ class Main extends React.Component {
       x: e.pageX,
       y: e.pageY
     }
+    this.lastMousePos = {
+      x: e.pageX,
+      y: e.pageY
+    }
+    // creating a new line
     if (this.state.isMeasureLineInProg) {
       this.setState(prevState => ({
         measureLines: [...prevState.measureLines, new MeasureLine(this.convertToImgPos(this.lastMouseDownPos), this.convertToImgPos(this.lastMouseDownPos))]
       }))
+      // clicking down on an existing line
     } else if (this.getIndexHovering() > -1) {
-
-
       this.isHoldingLine = true;
       console.log('grabbing line');
-      console.log(this.getIndexHovering())
-      console.log(this.state.measureLines)
       let newArr = this.state.measureLines.map(line => line);
-      let pt1 = this.state.measureLines[this.getIndexHovering()].pt1;
-      let pt2 = this.state.measureLines.pt2;
       newArr.splice(this.getIndexHovering(), 1);// remove the line that s getIndex hovering
       this.setState(prevState => ({
         measureLines: [...newArr, new MeasureLine(prevState.measureLines[this.getIndexHovering()].pt1, prevState.measureLines[this.getIndexHovering()].pt2)]
-      }), (() => console.log(this.state.measureLines)))
-
-
+      }));
     } else {
       this.setState({
         cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) ? 'crosshair' : 'move')
@@ -304,12 +309,13 @@ class Main extends React.Component {
   }
   mouseMove = (e) => {
     e.persist();
-    // If trying to drag
+
+    // If trying to drag image
     if (this.isMouseDown && !this.state.isMeasureLineInProg && !this.isHoldingLine) {
-      let diffX = this.state.lastMousePos.x - e.pageX;
-      let diffY = this.state.lastMousePos.y - e.pageY;
+      let diffX = this.lastMousePos.x - e.pageX;
+      let diffY = this.lastMousePos.y - e.pageY;
+      this.lastMousePos = { x: e.pageX, y: e.pageY };
       this.setState({
-        lastMousePos: { x: e.pageX, y: e.pageY },
         pos: {
           x: this.state.pos.x - diffX,
           y: this.state.pos.y - diffY
@@ -320,24 +326,65 @@ class Main extends React.Component {
     } else if (this.isMouseDown && this.state.isMeasureLineInProg) {
 
       this.setState(prevState => ({
-        measureLines: [...prevState.measureLines.slice(0, -1), new MeasureLine(this.convertToImgPos(this.lastMouseDownPos), this.convertToImgPos(prevState.lastMousePos))],
-        lastMousePos: { x: e.pageX, y: e.pageY },
+        measureLines: [...prevState.measureLines.slice(0, -1), new MeasureLine(this.convertToImgPos(this.lastMouseDownPos), this.convertToImgPos(this.lastMousePos))],
+
       }));
+      this.lastMousePos = { x: e.pageX, y: e.pageY };
+
+
+
+
+
+
+
+
+      // dragging line
     } else if (this.isMouseDown && this.isHoldingLine) {
-      let indexHolding = this.getIndexHovering();
+      let diffX = e.pageX - this.lastMousePos.x;
+      let diffY = e.pageY - this.lastMousePos.y;
+
+      let newLine = Object.assign({}, this.state.measureLines[this.state.measureLines.length - 1])
+      console.log('newLine.img.x', newLine.pt1.x);
+      let pagePosPt1 = this.convertToContainerPos(newLine.pt1);
+      pagePosPt1 = {
+        x: pagePosPt1.x + diffX + this.state.containerRef.current.offsetLeft,
+        y: pagePosPt1.y + diffY + this.state.containerRef.current.offsetTop
+      }
+
+      let pagePosPt2 = this.convertToContainerPos(newLine.pt2);
+      pagePosPt2 = {
+        x: pagePosPt2.x + diffX + this.state.containerRef.current.offsetLeft,
+        y: pagePosPt2.y + diffY + this.state.containerRef.current.offsetTop
+      }
+      let newImgPt1 = this.convertToImgPos(pagePosPt1)
+      console.log('newImgPt1.x', newImgPt1.x);
+      let newImgPt2 = this.convertToImgPos(pagePosPt2);
+
+
+
       this.setState(prevState => ({
-        measureLines: [...prevState.measureLines.slice(0, -1), new MeasureLine(this.convertToImgPos(this.lastMouseDownPos), this.convertToImgPos(prevState.lastMousePos))],
-        lastMousePos: { x: e.pageX, y: e.pageY },
+        measureLines: [...prevState.measureLines.slice(0, -1), new MeasureLine(newImgPt1, newImgPt2)],
       }));
+      this.lastMousePos = { x: e.pageX, y: e.pageY };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     } else if (!this.isMouseDown && !this.state.isMeasureLineInProg) {
     }
-    this.setState({
-      lastMousePos: {
-        x: e.pageX,
-        y: e.pageY
-      }
-    })
+    this.lastMousePos = { x: e.pageX, y: e.pageY }
   }
 
   mouseUp = (e) => {
@@ -361,16 +408,28 @@ class Main extends React.Component {
     })
   }
 
-  setLineStatus = (newStatuses) => {
+  setLineHover = (id, isHover) => {
+    console.log('*******')
     let newLines = this.state.measureLines.map((lineObj, i) => {
       let newLine = Object.assign({}, lineObj);
-      newLine.status = newStatuses[i];
+      newLine.isHover = newLine.id === id ? isHover : newLine.isHover;
       return newLine;
     })
     this.setState({
       measureLines: newLines,
     })
   }
+
+  // setLineSelected = (id, isSelected) => {
+  //   let newLines = this.state.measureLines.map((lineObj, i) => {
+  //     let newLine = Object.assign({}, lineObj);
+  //     newLine.status = [i];
+  //     return newLine;
+  //   })
+  //   this.setState({
+  //     measureLines: newLines,
+  //   })
+  // }
 
   mouseLeave = (e) => {
     this.isMouseDown = false;
@@ -441,8 +500,8 @@ class Main extends React.Component {
 
         isMeasureLineInProg={this.state.isMeasureLineInProg}
         measureLines={this.state.measureLines}
-        lastMousePos={this.state.lastMousePos}
-        setLineStatus={this.setLineStatus}
+        setLineHover={this.setLineHover}
+        setLineSelected={this.setLineSelected}
       />
     </div>)
   }
