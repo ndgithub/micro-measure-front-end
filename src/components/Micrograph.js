@@ -49,17 +49,7 @@ class Micrograph extends React.Component {
           onMouseMove={(e) => this.props.mouseMove(e)}
           onMouseLeave={(e) => this.props.mouseLeave(e)}
           onMouseEnter={(e) => this.props.mouseEnter(e)} >
-          {/* <CanvasLayer
-            containerRef={this.myRef}
-            measureLines={this.props.measureLines}
-            size={this.props.size}
-            pos={this.props.pos}
-            lastMousePos={this.props.lastMousePos}
-            setLineStatus={this.props.setLineStatus}
 
-            isScaleSetInProg={this.props.isScaleSetInProg}
-            isMeasureLineInProg={this.props.isMeasureLineInProg}
-          /> */}
           <SvgLayer
             containerRef={this.myRef}
             measureLines={this.props.measureLines}
