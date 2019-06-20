@@ -340,7 +340,6 @@ class Main extends React.Component {
 
 
 
-
       // dragging line
     } else if (this.isMouseDown && this.getIndexHovering() > -1) {
       let diffX = e.pageX - this.lastMousePos.x;
@@ -369,7 +368,7 @@ class Main extends React.Component {
     } else if (!this.isMouseDown && !this.state.isMeasureLineInProg) {
     }
     this.lastMousePos = { x: e.pageX, y: e.pageY }
-    // this.logLines('mouseMove');
+    //this.logLines('mouseMove');
   }
 
   mouseUp = (e) => {
