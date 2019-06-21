@@ -60,6 +60,7 @@ class Micrograph extends React.Component {
 
             isScaleSetInProg={this.props.isScaleSetInProg}
             isMeasureLineInProg={this.props.isMeasureLineInProg}
+            setLineHandleHover={this.props.setLineHandleHover}
           />
           {this.props.isImageScaleSet && this.props.isScalebarChecked &&
             <Scalebar size={this.props.size}

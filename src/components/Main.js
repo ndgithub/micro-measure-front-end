@@ -3,6 +3,7 @@ import Sidebar from './Sidebar';
 import Micrograph from './Micrograph';
 import html2canvas from 'html2canvas';
 import MeasureLine from './models/MeasureLine';
+import { thisExpression, throwStatement } from '@babel/types';
 
 
 
@@ -42,6 +43,7 @@ class Main extends React.Component {
     this.isMouseDown = null;
     this.moveLine = null;
     this.lastMousePos = null;
+    this.changingLineLength = false;;
   }
 
   useDemoUpload = () => {
@@ -289,32 +291,41 @@ class Main extends React.Component {
     } else if (this.getIndexHovering() > -1) {
 
       let newArr = this.state.measureLines.map(line => {
-        line.isSelected = false;
+        line.isSelected = false; // is this necessary?
         return line;
       })
       newArr.splice(this.getIndexHovering(), 1);// remove the line that s getIndex hovering
       this.setState(prevState => ({
         measureLines: [...newArr, new MeasureLine(prevState.measureLines[this.getIndexHovering()].pt1, prevState.measureLines[this.getIndexHovering()].pt2, true)]
       }));
+    } else if (this.getHandleHovering() !== -1) {
+
+
+      let index = this.getHandleHovering().index;
+      this.changingLineLength = true;
+      this.changingLineLengthPt = this.getHandleHovering().pt === 1 ? this.state.measureLines[index].pt2 : this.state.measureLines[index].pt1;
+      console.log('changingLineLengthPt', this.changingLineLengthPt);
+      let newArr = this.state.measureLines.map(line => line);
+      newArr.splice(index, 1);// remove the line thats' hanlde was grabbed
+      console.log(this.state.measureLines[this.state.measureLines.length - 1].isHandleHover);
+      this.setState(prevState => ({
+        measureLines: [...newArr, prevState.measureLines[index]]
+      }), () => console.log(this.state.measureLines[this.state.measureLines.length - 1].isHandleHover));
     } else {
       this.setState({
         cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2) ? 'crosshair' : 'move')
       })
     }
   }
-  getIndexHovering = () => {
-    for (let i = 0; i < this.state.measureLines.length; i++) {
-      if (this.state.measureLines[i].isHover === true) {
-        return i;
-      }
-    }
-    return -1;
-  }
+
+
 
   mouseMove = (e) => {
+    console.log('moved')
+    console.log(this.changingLineLength)
     e.persist();
     // If trying to drag image
-    if (this.isMouseDown && !this.state.isMeasureLineInProg && this.getIndexHovering() === -1) {
+    if (this.isMouseDown && !this.state.isMeasureLineInProg && this.getIndexHovering() === -1 && this.changingLineLength === false) {
       let diffX = this.lastMousePos.x - e.pageX;
       let diffY = this.lastMousePos.y - e.pageY;
       this.lastMousePos = { x: e.pageX, y: e.pageY };
@@ -336,10 +347,13 @@ class Main extends React.Component {
 
 
 
+    } else if (this.isMouseDown && this.changingLineLength === true) {
+      console.log('caca' + JSON.stringify(this.getHandleHovering()));
+      this.setState(prevState => ({
+        measureLines: [...prevState.measureLines.slice(0, -1), new MeasureLine(this.changingLineLengthPt, this.convertToImgPos(this.lastMousePos))],
 
-
-
-
+      }));
+      this.lastMousePos = { x: e.pageX, y: e.pageY };
       // dragging line
     } else if (this.isMouseDown && this.getIndexHovering() > -1) {
       let diffX = e.pageX - this.lastMousePos.x;
@@ -390,6 +404,9 @@ class Main extends React.Component {
     if ((this.getIndexHovering() > -1)) {
       this.setLineSelected();
 
+    } else if (this.changingLineLength === true) {
+      this.changingLineLength = false;
+
     }
     this.setState({
       cursorStyle: ((this.state.isScaleSetInProg && this.state.scalePts.length < 2 ? 'crosshair' : 'auto')),
@@ -401,7 +418,7 @@ class Main extends React.Component {
     // this.logLines();
     let newLines = this.state.measureLines.map((lineObj, i) => {
       let newLine = Object.assign({}, lineObj);
-      newLine.isHover = newLine.id === id ? isHover : newLine.isHover;
+      newLine.isHover = (newLine.id === id) ? isHover : newLine.isHover;
       return newLine;
     })
     this.setState({
@@ -431,6 +448,34 @@ class Main extends React.Component {
     this.setState({
       measureLines: newLines,
     }, () => this.logLines('set unselected'))
+  }
+
+
+  setLineHandleHover = (id, pt) => {
+    let newLines = this.state.measureLines.map((lineObj, i) => {
+      let newLine = Object.assign({}, lineObj);
+      newLine.isHandleHover = (newLine.id === id) ? pt : newLine.isHandleHover;
+      return newLine;
+    })
+    this.setState({
+      measureLines: newLines,
+    }, () => console.log("just set handle hover" + JSON.stringify(this.getHandleHovering())));
+  }
+  getHandleHovering = () => {
+    for (let i = 0; i < this.state.measureLines.length; i++) {
+      if (this.state.measureLines[i].isHandleHover === 1 || this.state.measureLines[i].isHandleHover === 2) {
+        return { index: i, pt: this.state.measureLines[i].isHandleHover }
+      }
+    }
+    return -1;
+  }
+  getIndexHovering = () => {
+    for (let i = 0; i < this.state.measureLines.length; i++) {
+      if (this.state.measureLines[i].isHover === true) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   mouseLeave = (e) => {
@@ -503,6 +548,7 @@ class Main extends React.Component {
         measureLines={this.state.measureLines}
         setLineHover={this.setLineHover}
         setLineSelected={this.setLineSelected}
+        setLineHandleHover={this.setLineHandleHover}
       />
     </div>)
   }
@@ -510,7 +556,7 @@ class Main extends React.Component {
   logLines = (where) => {
     console.log((`<<<< ${where} >>>>`))
     this.state.measureLines.forEach(line => {
-      console.log(`${line.id}:${line.isSelected}`)
+      console.log(`${line.id}:${line.isHandleHover}`)
     })
   }
 
