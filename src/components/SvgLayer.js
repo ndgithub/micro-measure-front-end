@@ -37,6 +37,21 @@ class SvgLayer extends React.Component {
   }
 
 
+  calculateLength = (lineObj) => {
+    let leftPoint = lineObj.pt1.x <= lineObj.pt2.x ? lineObj.pt1 : lineObj.pt2;
+    let rightPoint = leftPoint === lineObj.pt1 ? lineObj.pt2 : lineObj.pt1;
+
+    let base = (rightPoint.x - leftPoint.x) * this.props.imgSizeUnits.width;
+    let height = (rightPoint.y - leftPoint.y) * this.props.imgSizeUnits.height;
+    let hypotenuse = Math.sqrt((base ** 2) + (height ** 2))
+    return hypotenuse;
+    // one percent is how many image Units
+    // how many image units in the x didrection and y direction
+
+  }
+
+
+
 
 
 
@@ -46,6 +61,7 @@ class SvgLayer extends React.Component {
       <svg id='svg' width={this.props.containerRef.current.offsetWidth} height={this.props.containerRef.current.offsetWidth}>
         {
           this.props.measureLines.length > 0 && this.props.measureLines.map(lineObj => {
+            console.log(this.calculateLength(lineObj))
             let pt1 = this.convertToContainerPos(lineObj.pt1);
             let pt2 = this.convertToContainerPos(lineObj.pt2);
 

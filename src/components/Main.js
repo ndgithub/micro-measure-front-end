@@ -177,8 +177,16 @@ class Main extends React.Component {
 
   onClickDoneSetting = () => {
 
-    let imgScalePerc = Math.abs(this.state.scalePts[0].x - this.state.scalePts[1].x);
-    let imgSizeUnits = this.state.inputLengthValue / imgScalePerc;
+    let imgScalePercX = Math.abs(this.state.scalePts[0].x - this.state.scalePts[1].x);
+    // width of image in image units
+    let imgSizeUnitsX = this.state.inputLengthValue / imgScalePercX;
+    let imgSizeUnitsY = (this.state.origDims.height / this.state.origDims.width) * imgSizeUnitsX
+    let imgSizeUnits = {
+      width: imgSizeUnitsX,
+      height: imgSizeUnitsY
+    }
+
+
     this.setState({
       imgSizeUnits: imgSizeUnits,
       isImageScaleSet: true,

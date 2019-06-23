@@ -2,7 +2,7 @@ import React from "react";
 
 function Scalebar(props) {
   let imgContainerRatio = props.size.width / props.containerSizePx;
-  let containerSizeUnits = props.imgSizeUnits / imgContainerRatio
+  let containerSizeUnits = props.imgSizeUnits.width / imgContainerRatio
   let targetLength = containerSizeUnits * 0.3;
 
   var setLength_Units;
