@@ -3,7 +3,6 @@ import Sidebar from './Sidebar';
 import Micrograph from './Micrograph';
 import html2canvas from 'html2canvas';
 import MeasureLine from './models/MeasureLine';
-import { thisExpression, throwStatement } from '@babel/types';
 
 
 
@@ -15,7 +14,7 @@ class Main extends React.Component {
       size: null,
       pos: null,
       containerRef: null,
-      isImageScaleSet: false, // Used to be isImageScaleSet
+      isImageScaleSet: false,
       isScalebarChecked: false,
       isScaleSetInProg: false,
       selectedFile: null,
@@ -34,8 +33,6 @@ class Main extends React.Component {
       isMeasureLineInProg: false,
       measureLines: [],
       lastMousePos: null,
-
-
 
     };
 
@@ -185,6 +182,7 @@ class Main extends React.Component {
       width: imgSizeUnitsX,
       height: imgSizeUnitsY
     }
+    MeasureLine.prototype.imgSizeUnits = imgSizeUnits;
 
 
     this.setState({

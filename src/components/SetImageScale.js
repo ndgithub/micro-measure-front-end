@@ -18,10 +18,10 @@ class SetImageScale extends React.Component {
       <div className="image-buttons">
 
         <div className="button1">
-          <Button block={true} size='small' type="primary" className="set-scale-button" onClick={this.props.onClickSetImageScale}><Icon type="column-width" className="scale-icon" />Set Scale</Button>
+          <Button block={true} size='normal' type="primary" className="set-scale-button" onClick={this.props.onClickSetImageScale}><Icon type="column-width" className="scale-icon" />Set Scale</Button>
         </div>
         <div className="button2">
-          <Button block={true} size='small' className="new-image-button" onClick={() => this.inputRef.current.click()}><Icon className="upload-icon" type="upload" />New Image</Button>
+          <Button block={true} size='normal' className="new-image-button" onClick={() => this.inputRef.current.click()}><Icon className="upload-icon" type="upload" />New Image</Button>
         </div>
 
         <input ref={this.inputRef} type="file" id="file-upload" onChange={(event) => this.props.handleFileUpload(event)} />
