@@ -58,8 +58,6 @@ class Main extends React.Component {
         origDims: { width: img.width, height: img.height },
         imageLoaded: true,
 
-
-
         isImageScaleSet: false,
         isScalebarChecked: false,
         inputLengthValue: '',
@@ -555,6 +553,9 @@ class Main extends React.Component {
         setLineHover={this.setLineHover}
         setLineSelected={this.setLineSelected}
         setLineHandleHover={this.setLineHandleHover}
+
+        inputUnitsValue={this.state.inputUnitsValue}
+
       />
     </div>)
   }

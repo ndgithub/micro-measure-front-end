@@ -196,6 +196,20 @@ h2#section-title {
   text-decoration: underline;
 }
 
+.feedback {
+  font-size: 10px;
+  color: #8c8c8c;
+}
+
+.sign-in {
+  display: inline;
+}
+
+.sign-in:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .addLine {
   margin-top: 10px;
 }
@@ -294,6 +308,10 @@ img.snapshot {
 }
 
 .anticon.anticon-upload.upload-icon {
+  vertical-align: 1px;
+}
+
+.anticon.anticon-login {
   vertical-align: 1px;
 }
 

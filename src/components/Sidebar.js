@@ -8,6 +8,8 @@ import DrawLineOptions from './DrawLineOptions';
 import FeedbackButton from './FeedbackButton';
 
 
+
+
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,7 @@ class Sidebar extends React.Component {
   }
 
   componentDidMount() {
+
   }
 
   componentDidUpdate() {
@@ -25,7 +28,8 @@ class Sidebar extends React.Component {
   render() {
     return (
       <div id="sidebar">
-        {/* <div id="logo-container"></div> */}
+
+
         {this.props.imageLoaded ||
           <FileInput handleFileUpload={this.props.handleFileUpload} useDemoUpload={this.props.useDemoUpload} />
         }
@@ -71,6 +75,7 @@ class Sidebar extends React.Component {
 
           </>
           )}
+
         <FeedbackButton />
       </div>
     );

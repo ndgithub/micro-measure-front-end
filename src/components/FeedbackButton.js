@@ -1,11 +1,17 @@
 import React from 'react';
 import CollectionCreateForm from './CollectionCreateForm';
 import axios from 'axios';
+import SignIn from './SignIn';
 
 class FeedbackButton extends React.Component {
   state = {
     visible: false,
   };
+
+  componentDidMount() {
+    // startFirebaseUI('#firebaseui');
+
+  }
 
   showModal = () => {
     this.setState({ visible: true });
@@ -53,8 +59,10 @@ class FeedbackButton extends React.Component {
 
   render() {
     return (
+
       <div className="feedback-container" >
-        <div className="feedback-button" style={this.state.style} type="primary" onClick={this.showModal}  >
+        <SignIn /> <div className='feedback'>feedback@micromeasure.app</div>
+        {/* <div className="feedback-button" style={this.state.style} type="primary" onClick={this.showModal}  >
           Give Feedback...
         </div>
         <CollectionCreateForm
@@ -62,7 +70,7 @@ class FeedbackButton extends React.Component {
           visible={this.state.visible}
           onCancel={this.handleCancel}
           onSend={this.handleSend}
-        />
+        /> */}
       </div>
     );
   }

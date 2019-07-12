@@ -1,5 +1,4 @@
 import React from 'react';
-import { whileStatement } from '@babel/types';
 
 class SvgLayer extends React.Component {
   constructor(props) {
@@ -88,16 +87,17 @@ class SvgLayer extends React.Component {
           textStyle = {
             position: 'absolute',
             left: pt1.x,
-            top: pt1.y - 32,
+            top: pt1.y - 42,
             color: 'black',
             background: 'white',
             padding: '4px'
           }
-          return <div className="length-text-box" style={textStyle}>{lineObj.lengthUnits}</div>
+          return <div className="length-text-box" style={textStyle}>{lineObj.lengthUnits} {this.props.inputUnitsValue}</div>
         })}
       </>
     )
   }
+
 
 }
 

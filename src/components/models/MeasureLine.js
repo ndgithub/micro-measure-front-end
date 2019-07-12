@@ -18,7 +18,7 @@ export default class MeasureLine {
     let base = (rightPoint.x - leftPoint.x) * this.imgSizeUnits.width;
     let height = (rightPoint.y - leftPoint.y) * this.imgSizeUnits.height;
     let hypotenuse = Math.sqrt((base ** 2) + (height ** 2))
-    return hypotenuse;
+    return Math.round(hypotenuse);
     // one percent is how many image Units
     // how many image units in the x didrection and y direction
   }

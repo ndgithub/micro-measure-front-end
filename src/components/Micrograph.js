@@ -1,7 +1,7 @@
 import React from "react";
 import Scalebar from './Scalebar'
-// import CanvasLayer from './CanvasLayer';
 import SvgLayer from './SvgLayer'
+
 class Micrograph extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,8 @@ class Micrograph extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getContainerRef(this.myRef)
+    this.props.getContainerRef(this.myRef);
+
   }
 
   componentDidUpdate() {
@@ -42,6 +43,7 @@ class Micrograph extends React.Component {
         cursor: this.props.cursorStyle,
       }
       return (<>
+
         <div ref={this.myRef} style={myStyle} id="micro-container"
           onWheel={(e) => this.props.onMouseScroll(e)}
           onMouseDown={(e) => { this.props.mouseDown(e) }}
@@ -49,7 +51,6 @@ class Micrograph extends React.Component {
           onMouseMove={(e) => this.props.mouseMove(e)}
           onMouseLeave={(e) => this.props.mouseLeave(e)}
           onMouseEnter={(e) => this.props.mouseEnter(e)} >
-
           <SvgLayer
             containerRef={this.myRef}
             measureLines={this.props.measureLines}
@@ -62,6 +63,9 @@ class Micrograph extends React.Component {
             isMeasureLineInProg={this.props.isMeasureLineInProg}
             setLineHandleHover={this.props.setLineHandleHover}
             imgSizeUnits={this.props.imgSizeUnits}
+
+            inputUnitsValue={this.props.inputUnitsValue}
+
           />
           {this.props.isImageScaleSet && this.props.isScalebarChecked &&
             <Scalebar size={this.props.size}
