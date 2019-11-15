@@ -2,6 +2,7 @@ import React from 'react';
 import CollectionCreateForm from './CollectionCreateForm';
 import axios from 'axios';
 import SignIn from './SignIn';
+import firebase from 'firebase';
 
 class FeedbackButton extends React.Component {
   state = {
@@ -55,22 +56,15 @@ class FeedbackButton extends React.Component {
     this.formRef = formRef;
   };
 
-
+  onClickSignOut = () => {
+    firebase.auth().signOut();
+  }
 
   render() {
     return (
-
       <div className="feedback-container" >
-        <SignIn /> <div className='feedback'>feedback@micromeasure.app</div>
-        {/* <div className="feedback-button" style={this.state.style} type="primary" onClick={this.showModal}  >
-          Give Feedback...
-        </div>
-        <CollectionCreateForm
-          wrappedComponentRef={this.saveFormRef}
-          visible={this.state.visible}
-          onCancel={this.handleCancel}
-          onSend={this.handleSend}
-        /> */}
+        <SignIn user={this.props.user} />
+        <div className='feedback'>feedback@micromeasure.app</div>
       </div>
     );
   }

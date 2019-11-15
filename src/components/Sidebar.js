@@ -70,13 +70,13 @@ class Sidebar extends React.Component {
               onClickScaleBgColor={this.props.onClickScaleBgColor}
             /> </>
             }
-            {!this.props.isScaleSetInProg && <Snapshots onSaveSnapClicked={this.props.onSaveSnapClicked} snapUrls={this.props.snapUrls} />}
+            {!this.props.isScaleSetInProg && <Snapshots onSaveSnapClicked={this.props.onSaveSnapClicked} snapshots={this.props.snapshots} />}
 
 
           </>
           )}
 
-        <FeedbackButton />
+        <FeedbackButton user={this.props.user} />
       </div>
     );
   }

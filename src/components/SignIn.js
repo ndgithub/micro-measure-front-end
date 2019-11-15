@@ -1,24 +1,21 @@
 import React from 'react';
 import { Popover, Icon } from 'antd';
-import FirebaseUI from './FirebaseUi';
+import FirebaseUi from './FirebaseUi';
+import firebase from 'firebase';
 
 
-const text = <span>Title</span>;
-const content = (
-  <FirebaseUI />
-);
-
-const buttonWidth = 70;
+function onClickSignOut() {
+  firebase.auth().signOut();
+}
 
 export default function SignIn(props) {
-  return (
 
-
-    <Popover placement="rightBottom" content={content} trigger="hover">
+  let button = props.user ? <div className='sign-out' onClick={onClickSignOut}> <Icon type="logout" /> Sign Out</div> : (
+    <Popover placement="rightBottom" content={<FirebaseUi />} trigger="hover">
       <div className='sign-in'> <Icon type="login" /> Sign In</div>
-    </Popover>
+    </Popover>);
 
-  )
+  return button;
 };
 
 

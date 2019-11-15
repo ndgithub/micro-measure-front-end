@@ -3,12 +3,16 @@ import Sidebar from './Sidebar';
 import Micrograph from './Micrograph';
 import html2canvas from 'html2canvas';
 import MeasureLine from './models/MeasureLine';
+import firebase from 'firebase';
+import axios from 'axios';
 
 
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
+
+
     this.state = {
       imageLoaded: false,
       size: null,
@@ -21,7 +25,7 @@ class Main extends React.Component {
       origDims: null,
       imgSizeUnits: null,
       units: null,
-      snapUrls: [],
+      snapshots: [],
       scalePts: [],
       inputLengthValue: '',
       inputUnitsValue: '',
@@ -34,14 +38,72 @@ class Main extends React.Component {
       measureLines: [],
       lastMousePos: null,
 
+      user: null,
+
     };
+
 
     this.origDims = null;
     this.isMouseDown = null;
     this.moveLine = null;
     this.lastMousePos = null;
-    this.changingLineLength = false;;
+    this.changingLineLength = false;
+
+    this.initFirebase();
   }
+
+  initFirebase = () => {
+    let config = {
+      apiKey: "AIzaSyB4djUY5Mpv7D47zQzuF_N-KbuRQ6XiEgs",
+      authDomain: "fir-auth-practice-9a328.firebaseapp.com",
+      databaseURL: "https://fir-auth-practice-9a328.firebaseio.com",
+      projectId: "fir-auth-practice-9a328",
+      storageBucket: "",
+      messagingSenderId: "386709413354"
+    };
+    firebase.initializeApp(config);
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user: firebase.auth().currentUser })
+        this.getSnapshotsFromDb();
+
+      } else {
+        this.setState({ user: null })
+      }
+    });
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentDidUpdate() {
+  }
+
+  getSnapshotsFromDb = () => {
+    this.state.user.getIdToken(false).then((idToken) => {
+
+      axios.post('http://localhost:3001/get-snapshots', {
+
+        idToken
+
+      })
+        .then((snapshots) => {
+          this.setState(prevState => ({
+            snapshots: [...prevState.snapshots, ...snapshots.data]
+          }));
+          console.log(snapshots);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+    });
+
+  }
+
+
 
   useDemoUpload = () => {
     var url = 'https://i.imgur.com/ssPGfDJ.jpg';
@@ -100,6 +162,7 @@ class Main extends React.Component {
     }
     img.src = url;
   };
+
 
 
   getInitSize = () => {
@@ -230,11 +293,33 @@ class Main extends React.Component {
   onSaveSnapClicked = () => {
     html2canvas(this.state.containerRef.current, { logging: false, useCORS: true }).then(canvas => {
       let canvDataUrl = canvas.toDataURL();
+      if (this.state.user) {
+        this.postSnapshotToDb(canvDataUrl);
+      }
       this.setState(prevState => ({
-        snapUrls: [...prevState.snapUrls, canvDataUrl]
+        snapshots: [...prevState.snapshots, { dataUrl: canvDataUrl, _id: null }]
       }));
     });
   }
+
+  postSnapshotToDb = (dataUrl) => {
+    this.state.user.getIdToken(false).then((idToken) => {
+
+      axios.post('http://localhost:3001/save-snapshot', {
+        dataUrl: dataUrl,
+        idToken: idToken
+      })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+    });
+  }
+
+
 
   onClickSetImageScale = () => {
     this.setState({
@@ -495,12 +580,13 @@ class Main extends React.Component {
 
 
   render() {
+    console.log('user' + firebase.auth().currentUser);
     return (<div id='main'>
       <Sidebar
         handleFileUpload={this.handleFileUpload}
         onClickScalebarBtn={this.onClickScalebarBtn}
         onSaveSnapClicked={this.onSaveSnapClicked}
-        snapUrls={this.state.snapUrls}
+        snapshots={this.state.snapshots}
         imageLoaded={this.state.imageLoaded}
         scalePtsLength={this.state.scalePts.length}
         onCheckUseScalebar={this.onCheckUseScalebar}
@@ -524,6 +610,7 @@ class Main extends React.Component {
         onClickScaleBgColor={this.onClickScaleBgColor}
         isMeasureLineInProg={this.isMeasureLineInProg}
         onClickDrawLine={this.onClickDrawLine}
+        user={this.state.user}
 
       />
       <Micrograph

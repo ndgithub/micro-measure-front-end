@@ -210,6 +210,11 @@ h2#section-title {
   cursor: pointer;
 }
 
+.sign-out:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .addLine {
   margin-top: 10px;
 }
@@ -312,6 +317,10 @@ img.snapshot {
 }
 
 .anticon.anticon-login {
+  vertical-align: 1px;
+}
+
+.anticon.anticon-logout {
   vertical-align: 1px;
 }
 
