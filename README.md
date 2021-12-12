@@ -15,4 +15,4 @@ A React app that allows users to upload a digital micrograph with a scalebar,and
 
 ## Deployed Site
 
-[Live Site - https://micro-measure.herokuapp.com)](https://micro-measure.herokuapp.com/)
+[Live Site - https://micro-measure.herokuapp.com](https://micro-measure.herokuapp.com/)
