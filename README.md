@@ -11,7 +11,8 @@ A React app that allows users to upload a digital micrograph with a scalebar,and
 - Click and drag to move image
 - After setting the scale bar (click the end points), a new scale bar is overlayed that scales dynamically on zoom
 - Save and download snapshots
+- Deploys from Heroku 
 
 ## Deployed Site
 
-[https://www.micromeasure.app](https://www.micromeasure.app)
+[Live Site - https://micro-measure.herokuapp.com)](https://micro-measure.herokuapp.com/)
